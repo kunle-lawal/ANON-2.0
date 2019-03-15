@@ -1,0 +1,157 @@
+@import "reset.scss";
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+@import url('https://fonts.googleapis.com/css?family=Lato:900');
+
+@mixin test-borders($color) {
+    // border: 1px solid $color;
+}
+
+/*Main Font-sizes*/
+$h1-font: 55px;
+
+$h2-font: 30px;
+
+$p-font: 15px;
+
+h1 {
+    font-size: $h1-font;
+    line-height: $h1-font + 5;
+    font-family: 'Lato', sans-serif;
+}
+
+h2 {
+    font-size: $h2-font;
+    line-height: $h2-font + 5;
+    font-family: 'Quicksand', sans-serif;
+}
+
+p {
+    font-size: $p-font;
+    line-height: $p-font + 5;
+    font-weight: 200;
+    font-family: 'Quicksand', sans-serif;
+    color:#222;
+}
+
+.openArticle {
+    height:100vh !important;
+}
+
+.main_container {
+    @include test-borders(pinkg);
+    width:100%;
+    min-height: 10px;
+
+    .main {
+        @include test-borders(blue);
+        background-color:snow;
+
+        .top_section {
+            @include test-borders(red);
+            position: relative;
+            min-height:100px;
+            width:100%;
+            // text-align: center;
+            background-color:#fff;
+            line-height: 100px;
+            display: inline-block;
+            // margin:auto;
+            background-color:#f98866;
+            color:white;
+
+            .logo {
+                @include test-borders(black);
+                z-index: 3;
+                display: inline-block;
+                min-width:40px;
+                vertical-align: middle;
+                line-height: normal;
+                height: 100%;
+                font-weight: 900;
+                position: relative;
+                left:100px;
+            }
+
+            .write-container {
+                @include test-borders(red);
+                margin: auto;
+                vertical-align: middle;
+                text-align: center;
+                height: 100%;
+                float: right;
+                right: 100px;
+                position: relative;
+                cursor: pointer;
+
+                .write {
+                    @include test-borders(red);
+                    display: inline-block;
+                    margin: auto;
+                    vertical-align: middle;
+                    line-height: normal;
+                    transition: transform 1s;
+                    text-align: center;
+                    padding:10px 20px;
+                    transition:all 0.7s;
+                    color:white !important;
+
+                    &:hover {
+                        box-shadow: 0px 1px 5px #ea633a;
+                    }
+
+                    &:active {
+                        box-shadow: inset 1px 1px 5px #ea633a;
+                    }
+                }
+            }
+        }
+
+
+        .main_body_container {
+            @include test-borders(yellow);
+            min-height: 10px;
+
+            .main_body {
+                @include test-borders(black);
+                text-align: center;
+                .article {
+                    @include test-borders(green);
+                    width: 100%;
+                    display:grid;
+                    grid-template-columns: 1fr 2fr;
+                    cursor: pointer;
+                    margin:auto;
+                    padding:100px 0;
+                    border-top:1px solid #c0c7c7;
+                    height: initial;
+                    transition:all 7s;
+
+                    &:hover {
+                        background-color:#ffffff;
+                    }
+
+                    * {
+                        @include test-borders(black);
+                    }
+
+                    &-date {
+                        text-align: right;
+                    }
+
+                    &-info {
+                        text-align: left;
+                        margin-left:50px;
+
+                        &-title {
+                            
+                        }
+                        &-description {
+                            margin-top:20px;
+                            width:70%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
