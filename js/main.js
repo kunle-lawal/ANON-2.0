@@ -1,13 +1,12 @@
 var textarea = document.getElementById("textarea");
-var pop_up = document.getElementById("pop_up");
 var limit = 10000;
 
-var posts_title_arr = ["The story"];
-var posts_text_arr = ["A long, long time ago in a warped, warped galaxy... After leaving the fragile planet Jupiter, a group of wizards fly toward a distant speck. The speck gradually resolves into a frosty, space hall. Civil war strikes the galaxy, which is ruled by Beth Jolie, a warped robot capable of jealousy and even violence. Terrified, a ripped witch known as Roger Sparkle flees the Empire, with his protector, Jessica Zeus. They head for Philadelphia on the planet Mooyani. When they finally arrive, a fight breaks out. Zeus uses her warped candlestick to defend Roger. Zeus and Witch Roger decide it's time to leave Mooyani and steal a scooter to shoot their way out. They encounter a tribe of aliens. Zeus is attacked and the witch is captured by the aliens and taken back to Philadelphia."];
-var posts_time_arr = ["Ghost Post"];
-var post_likes = [[0], [0], [0]]
+// var posts_title_arr = ["The story"];
+// var posts_text_arr = ["A long, long time ago in a warped, warped galaxy... After leaving the fragile planet Jupiter, a group of wizards fly toward a distant speck. The speck gradually resolves into a frosty, space hall. Civil war strikes the galaxy, which is ruled by Beth Jolie, a warped robot capable of jealousy and even violence. Terrified, a ripped witch known as Roger Sparkle flees the Empire, with his protector, Jessica Zeus. They head for Philadelphia on the planet Mooyani. When they finally arrive, a fight breaks out. Zeus uses her warped candlestick to defend Roger. Zeus and Witch Roger decide it's time to leave Mooyani and steal a scooter to shoot their way out. They encounter a tribe of aliens. Zeus is attacked and the witch is captured by the aliens and taken back to Philadelphia."];
+// var posts_time_arr = ["Ghost Post"];
+// var post_likes = [[0], [0], [0]]
 
-var curr_post_displayed = 0;
+// var curr_post_displayed = 0;
 var messagesRef = firebase.database().ref()/*.child("object");*/
 var posted = 0;
 //Random number Generator
@@ -56,7 +55,9 @@ function sort_time(time) {
 }
 
 messagesRef.on('child_added', function (snapshot) {
+    // console.log(snapshot.val());
     var data = snapshot.val();
+    // console.log(data.post_);
     title = data.title_;
     post = data.post_;
     time = data.time_;
@@ -64,21 +65,20 @@ messagesRef.on('child_added', function (snapshot) {
     laughing = data.laughing_;
     shoocked = data.shoocked_;
     
-    console.log(data.title_, data.post_, data.time_, thumbsup, laughing, shoocked);
-    posts_title_arr.push(sanatize(title));
-    posts_text_arr.push(sanatize(post));
-    posts_time_arr.push(sanatize(sort_time(time)));
-    post_likes[0].push((thumbsup));
-    post_likes[1].push((laughing));
-    post_likes[2].push((shoocked));
+    // console.log(data.title_, data.post_, data.time_, thumbsup, laughing, shoocked);
+    new_post(sanatize(data.title_), data.post_, data.time_, thumbsup, laughing, shoocked);
+    // posts_title_arr.push(sanatize(title));
+    // posts_text_arr.push(sanatize(post));
+    // posts_time_arr.push(sanatize(sort_time(time)));
+    // post_likes[0].push((thumbsup));
+    // post_likes[1].push((laughing));
+    // post_likes[2].push((shoocked));
 });
 
 window.setTimeout(function () {
-    GID("main_body").innerHTML = "";
     for (var i = 0; i < posts_title_arr.length; i++) {
         // console.log(posts_title_arr[i], posts_text_arr[i].slice(0, randNum(100, 200)) + "...", posts_time_arr[i], post_likes[0][i], post_likes[1][i], post_likes[2][i]);
-        new_post(sanatize(posts_title_arr[i]), posts_text_arr[i].slice(0, randNum(100, 200)) + "...", posts_time_arr[i], post_likes[0][i], post_likes[1][i], post_likes[2][i]);
-        // new_post(sanatize(posts_title_arr[i]), "This works", "And time");
+        // new_post(sanatize(posts_title_arr[i]), posts_text_arr[i].slice(0, randNum(100, 200)) + "...", posts_time_arr[i], post_likes[0][i], post_likes[1][i], post_likes[2][i]);
     }
 }, 2000);
 
