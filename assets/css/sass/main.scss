@@ -11,7 +11,9 @@ $h1-font: 55px;
 
 $h2-font: 30px;
 
-$p-font: 15px;
+$h3-font: 15px;
+
+$p-font: 20px;
 
 h1 {
     font-size: $h1-font;
@@ -22,6 +24,12 @@ h1 {
 h2 {
     font-size: $h2-font;
     line-height: $h2-font + 5;
+    font-family: 'Quicksand', sans-serif;
+}
+
+h3 {
+    font-size: $h3-font;
+    line-height: $h3-font+5;
     font-family: 'Quicksand', sans-serif;
 }
 
@@ -44,7 +52,6 @@ p {
 
     .main {
         @include test-borders(blue);
-        background-color:snow;
 
         .top_section {
             @include test-borders(red);
@@ -52,11 +59,10 @@ p {
             min-height:100px;
             width:100%;
             // text-align: center;
-            background-color:#fff;
             line-height: 100px;
             display: inline-block;
             // margin:auto;
-            background-color:#f98866;
+            background-color:#222222;
             color:white;
 
             .logo {
@@ -96,11 +102,11 @@ p {
                     color:white !important;
 
                     &:hover {
-                        box-shadow: 0px 1px 5px #ea633a;
+                        box-shadow: 0px 1px 5px #070707;
                     }
 
                     &:active {
-                        box-shadow: inset 1px 1px 5px #ea633a;
+                        box-shadow: inset 1px 1px 5px #070707;
                     }
                 }
             }
@@ -116,26 +122,15 @@ p {
                 text-align: center;
                 .article {
                     @include test-borders(green);
-                    width: 100%;
-                    display:grid;
-                    grid-template-columns: 1fr 2fr;
-                    cursor: pointer;
+                    width: 60%;
                     margin:auto;
                     padding:100px 0;
                     border-top:1px solid #c0c7c7;
                     height: initial;
                     transition:all 7s;
 
-                    &:hover {
-                        background-color:#ffffff;
-                    }
-
                     * {
                         @include test-borders(black);
-                    }
-
-                    &-date {
-                        text-align: right;
                     }
 
                     &-info {
@@ -143,11 +138,52 @@ p {
                         margin-left:50px;
 
                         &-title {
-                            
+                            width:70%;
+                            font-weight: 900;
+                            text-decoration: underline;
                         }
                         &-description {
                             margin-top:20px;
                             width:70%;
+                        }
+                    }
+
+                    &-date {
+                        @include test-borders(red);
+                        text-align: left;
+                        display:grid;
+                        grid-template-columns: 1fr 1fr;
+                        width:70%;
+                        margin:50px 50px;
+
+                        .date {
+                            color:#7b7b7b;
+                            font-weight: 900;
+                        }
+
+                        .reaction {
+                            @include test-borders(blue);
+                            
+                            .highlighted {
+                                color:#222;
+                            }
+
+                            i {
+                                @include test-borders(red);
+                                margin:auto 10px;
+                                color:#7b7b7b;
+                                font-size:18px;
+                                cursor: pointer;
+
+                                &:hover {
+                                    color:#222;
+                                }
+
+                                span {
+                                    font-family: 'Quicksand', sans-serif;
+                                    margin-left:10px;
+                                }
+                            }
                         }
                     }
                 }
