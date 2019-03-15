@@ -1,2 +1,4 @@
 *.scss
 *.map
+/assets/css/sass/.scss
+/assets/css/sass/.map
