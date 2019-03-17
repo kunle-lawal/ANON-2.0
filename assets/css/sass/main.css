@@ -163,7 +163,22 @@ p {
 }
 
 .openArticle {
-  height: 100vh !important;
+  min-height: 100vh !important;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
 
 .main_container {
@@ -243,9 +258,9 @@ p {
   margin: auto;
   padding: 100px 0;
   border-top: 1px solid #c0c7c7;
-  height: initial;
-  -webkit-transition: all 7s;
-  transition: all 7s;
+  min-height: 10px;
+  -webkit-transition: all 0.7s;
+  transition: all 0.7s;
 }
 
 .main_container .main .main_body_container .main_body .article-info {
@@ -281,6 +296,8 @@ p {
 
 .main_container .main .main_body_container .main_body .article-date .reaction .highlighted {
   color: #222;
+  position: relative;
+  top: -4px;
 }
 
 .main_container .main .main_body_container .main_body .article-date .reaction i {
@@ -288,15 +305,20 @@ p {
   color: #7b7b7b;
   font-size: 18px;
   cursor: pointer;
-  -webkit-transition: top 0.4s;
-  transition: top 0.4s;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
   top: 0;
 }
 
 .main_container .main .main_body_container .main_body .article-date .reaction i:hover {
-  color: #222;
+  color: #c98917;
   position: relative;
-  top: -5px;
+  top: -2px;
+}
+
+.main_container .main .main_body_container .main_body .article-date .reaction i:active {
+  top: 2px;
+  font-size: 17px;
 }
 
 .main_container .main .main_body_container .main_body .article-date .reaction i span {
