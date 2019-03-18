@@ -1,7 +1,4 @@
-var postsLiked = [];
-var savedLikes;
-
-// (function () {
+(function () {
     // var posts_title_arr = ["The story"];
     // var posts_text_arr = ["A long, long time ago in a warped, warped galaxy... After leaving the fragile planet Jupiter, a group of wizards fly toward a distant speck. The speck gradually resolves into a frosty, space hall. Civil war strikes the galaxy, which is ruled by Beth Jolie, a warped robot capable of jealousy and even violence. Terrified, a ripped witch known as Roger Sparkle flees the Empire, with his protector, Jessica Zeus. They head for Philadelphia on the planet Mooyani. When they finally arrive, a fight breaks out. Zeus uses her warped candlestick to defend Roger. Zeus and Witch Roger decide it's time to leave Mooyani and steal a scooter to shoot their way out. They encounter a tribe of aliens. Zeus is attacked and the witch is captured by the aliens and taken back to Philadelphia."];
     // var posts_time_arr = ["Ghost Post"];
@@ -19,10 +16,13 @@ var savedLikes;
     firebase.initializeApp(config);
 
     // var curr_post_displayed = 0;
+    var postsLiked = [];
+    var savedLikes;
     var postRef = firebase.database().ref();
     var textarea = document.getElementById("textarea");
     var limit = 10000;
     var postsNum = 0;
+    var reactions = ["laughing", "shoocked", "thumbsup"];
 
     //Random number Generator
     function randNum(min, max) {
@@ -80,7 +80,7 @@ var savedLikes;
 
     displayLikes = function() {
         getData();
-        var reactions = ["laughing", "shoocked", "thumbsup"];
+        
         for(var i = 0; i < savedLikes.length; i++) {
             if (savedLikes[i].id == postsLiked[i].id) {
                 for (var j = 0; j < reactions.length; j++) {
@@ -134,7 +134,6 @@ var savedLikes;
     }
 
     addReaction = function(reaction, val, key) {
-        // console.log(reaction, key, val);
         if(reaction == "laughing") {
             firebase.database().ref(key + "/reaction").update({ laughing_: val });
         } else if(reaction == "shoocked") {
@@ -147,25 +146,14 @@ var savedLikes;
     $(".main_body").on('click', '.fas', function () {
         if (!storeageSupport()) {return}
         var reaction = $(this).attr('id').substring(0, 8);
-        // console.log(reaction);
         var key = $(this).closest('.article').attr('id');
         key = key.substring(7, key.length);
-        // var val = likePost(key, reaction);
         var currNum = likePost(key, reaction);
         addReaction(reaction, currNum, key);
-        console.log(currNum);
-        // if (val[1] == null) {
-            // currNum = currNum;
-        // } else {
-            // currNum++;
-            // console.log(currNum);
-            // addReaction(reaction, currNum, key);
-            // // console.log($(this).closest('.article').attr('id'));
-            // console.log(currNum);
-        // }
         // console.log(currNum);
         $(this).html('<span>' + (currNum) + '</span>');
         $(this).toggleClass("highlighted");
+        saveData();
     })
 
 
@@ -199,9 +187,9 @@ var savedLikes;
                 liked: false
             },
         });
+        new_post(id, sanatize(data.title_), data.post_, data.time_, thumbsup, laughing, shoocked);
 
         // console.log(data.title_, data.post_, data.time_, thumbsup, laughing, shoocked);
-        new_post(id, sanatize(data.title_), data.post_, data.time_, thumbsup, laughing, shoocked);
         // posts_title_arr.push(sanatize(title));
         // posts_text_arr.push(sanatize(post));
         // posts_time_arr.push(sanatize(sort_time(time)));
@@ -210,12 +198,13 @@ var savedLikes;
         // post_likes[2].push((shoocked));
     });
 
-    // window.setTimeout(function () {
-    //     for (var i = 0; i < posts_title_arr.length; i++) {
-    //         // console.log(posts_title_arr[i], posts_text_arr[i].slice(0, randNum(100, 200)) + "...", posts_time_arr[i], post_likes[0][i], post_likes[1][i], post_likes[2][i]);
-    //         // new_post(sanatize(posts_title_arr[i]), posts_text_arr[i].slice(0, randNum(100, 200)) + "...", posts_time_arr[i], post_likes[0][i], post_likes[1][i], post_likes[2][i]);
-    //     }
-    // }, 2000);
+    window.setTimeout(function () {
+        displayLikes();
+        // for (var i = 0; i < posts_title_arr.length; i++) {
+        //     // console.log(posts_title_arr[i], posts_text_arr[i].slice(0, randNum(100, 200)) + "...", posts_time_arr[i], post_likes[0][i], post_likes[1][i], post_likes[2][i]);
+        //     // new_post(sanatize(posts_title_arr[i]), posts_text_arr[i].slice(0, randNum(100, 200)) + "...", posts_time_arr[i], post_likes[0][i], post_likes[1][i], post_likes[2][i]);
+        // }
+    }, 2000);
 
     function get_end_ID(id) {
         var x = "";
@@ -287,4 +276,4 @@ var savedLikes;
         $(".container").removeClass("not_displayed_text");
         $(".site-footer").removeClass("not_displayed_text");
     });
-// })();
+})();
