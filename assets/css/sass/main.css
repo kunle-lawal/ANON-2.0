@@ -135,6 +135,11 @@ table {
   border-spacing: 0;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 /*Main Font-sizes*/
 h1 {
   font-size: 55px;
