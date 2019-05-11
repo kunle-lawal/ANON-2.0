@@ -6,16 +6,15 @@ export const createStory = (story, ids) => {
         const firebase = getFirebase();
         const {stories} = getState();
         const user = firebase.auth().currentUser;
-        const userCollection = firestore.collection('users').doc(user.uid);
-        // console.log(ids.postId);
-        // if(stories.addedStory){return 0}
-        // story.title = (story.title === '' || story.title === null) ? 'My True Story' : story.title;
+        const userCollection = firestore.collection('users');
         firestore.collection('stories').add({
             title: story.title,
             content: story.content,
             postID: ids.postId,
+            commentsTotal: 0,
             time: new Date(),
             createdAt: new Date().getTime(),
+            userID: user.uid,
             reactions: {
                 laugh: {
                     type: 'laugh',
@@ -33,21 +32,19 @@ export const createStory = (story, ids) => {
                     active: false
                 }
             }
-        }).then(() => {
-            // story.adding = false;
-            // console.log("make user story")
-            userCollection.collection('posts').doc(user.uid).set({
+        }).then((docRef) => {
+            userCollection.doc(user.uid).collection('posts').add({
                 "posts": {
-                    ["post" + ids.postId]: {
-                        title: story.title,
-                        content: story.content,
-                        postID: ids.postId,
-                        uid: user.uid
-                    }
+                    title: story.title,
+                    content: story.content,
+                    postID: ids.postId,
+                    createdAt: new Date().getTime(),
+                    docId: docRef.id
                 }
+            })
+            firestore.collection('users').doc(user.uid).set({
+                lastPost: Date.now()
             }, { merge: true })
-            // console.log("Add id");
-            // console.log(firebase.firestore.FieldValue.increment(1));
             firestore.collection('Ids').doc("postIds").update({
                 totalIds: firebase.firestore.FieldValue.increment(1)
             })
@@ -64,8 +61,4 @@ const isEmpty = (obj) => {
             return true;
     }
     return false;
-}
-
-const log = (x) => {
-    console.log(x);
 }

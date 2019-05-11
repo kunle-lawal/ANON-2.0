@@ -18,7 +18,6 @@ function sortTime(time) {
 
 function TimePosted(props) {
     const { time } = props;
-    // console.log(time);
     return (
         <h4>{sortTime(time)}</h4>
     )

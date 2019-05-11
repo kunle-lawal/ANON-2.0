@@ -1,21 +1,20 @@
 const initState = {
-    stories: [
-        {id: '1', title: 'This is the way to go', content: 'blah blah blah'},
-        {id: '2', title: 'This is the way to go', content: 'blah blah blah' },
-        {id: '3', title: 'This is the way to go', content: 'blah blah blah' }
+    comments: [
+        [ "Comment 1" ],
+        [ "Comment 2" ],
+        [ "Comment 3" ]
     ],
-    addedStory: false,
+    addedComment: false,
     error: ""
 }
 
 const storyReducer = (state = initState, action) => {
     switch (action.type) {
-        case 'ADDED_STORY':
-            window.location = '/'
+        case 'ADDED_COMMENT':
             return {
                 ...state,
             }
-        case 'CREATED_STORY_ERROR':
+        case 'CREATED_COMMENT_ERROR':
             return state
         case 'EMPTY_VALUE':
             return {

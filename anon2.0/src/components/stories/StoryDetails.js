@@ -4,15 +4,21 @@ import {firestoreConnect} from 'react-redux-firebase'
 import {compose} from 'redux'
 import TimePosted from '../miniComponents/TimePosted'
 import Reactions from '../miniComponents/Reactions'
+import WriteComments from '../miniComponents/WriteComments'
+import Comments from './Comments'
+import DashboardTemplate from '../dashboard/DashboardTemplate'
 
 function StoryDetails(props) {
     const { story } = props;
-    // console.log(props);
-    // console.log(story);
     let reactionProps = {
         story: story,
         id: props.match.params.id
     }
+    const comment = story ? (<Comments storyId={props.match.params.id} />) : (
+        <div id="main_body_container" className="main_body_container">
+            <DashboardTemplate />
+        </div>
+    )
     if (story) {
         return (
             <div className="main_body_container">
@@ -33,6 +39,10 @@ function StoryDetails(props) {
                                 <TimePosted time={story.createdAt} />
                             </div>
 
+                            <div className="totalComments left container">
+                                <h4>{story.commentsTotal === 1 ? (story.commentsTotal + ' Comment') : (story.commentsTotal + ' Comments')}</h4>
+                            </div>
+
                             <Reactions reactions={reactionProps} />
                         </div>
                         <div className="drag">
@@ -40,6 +50,8 @@ function StoryDetails(props) {
                         </div>
                     </div>
                 </div>
+                {comment}
+                <WriteComments document={reactionProps.id}/>
             </div>
         )
     } else {
@@ -54,7 +66,6 @@ function StoryDetails(props) {
 const mapStateToProps = (state, ownProps) => {
     const id = ownProps.match.params.id;
     const stories = state.firestore.data.stories;
-    // console.log(state);
     const story = stories ? stories[id] : null;
     return {
         story: story
@@ -63,7 +74,9 @@ const mapStateToProps = (state, ownProps) => {
 
 export default compose(
     connect(mapStateToProps),
-    firestoreConnect([
-        {collection: 'stories'}
+    firestoreConnect((ownProps) => [
+        {
+            collection: 'stories',
+        }
     ])
 )(StoryDetails)

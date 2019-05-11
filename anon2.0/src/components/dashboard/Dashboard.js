@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import StoryList from '../stories/StoriesList'
 import Pagination from './Pagination'
+import DashboardTemplate from './DashboardTemplate'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux'
@@ -8,13 +9,8 @@ import { toggleMobileNav, resetView } from '../../store/actions/navActions'
 
 class Dashboard extends Component {
     state = {
-        endAt: 5
+        endAt: 8
     }
-
-    // componentWillMount(props) {
-    //     x[0] = 5;
-    //     x[1] = 10;
-    // }
 
     changePage = () => {
         this.setState({
@@ -32,24 +28,25 @@ class Dashboard extends Component {
             offset: pageId,
             totalPages: (((stories ? stories.length : 1) / this.state.endAt)) < 1 ? 1 : Math.ceil((stories ? stories.length : 1) / this.state.endAt)
         }
-        // console.log(paginatedStories ? paginatedStories : 0);
-        // console.log(stories)
-        // let story = this.story;
-        // console.log(this.props);
-        // story = story.splice(this.state.startAt, this.state.endAt + 1);
-        // console.log(story);
+
         if (!nav.mobileToggled) {
-            return (
-                <div id="main_body_container" className="main_body_container">
-                    <StoryList stories={paginatedStories} />
-                    <Pagination paginationState={paginationState}/>
-                </div>
-            )
+            if(stories) {
+                return (
+                    <div id="main_body_container" className="main_body_container">
+                        <StoryList stories={paginatedStories} />
+                        <Pagination paginationState={paginationState} />
+                    </div>
+                )
+            } else {
+                return (
+                    <div id="main_body_container" className="main_body_container">
+                        <DashboardTemplate/>
+                    </div>
+                )
+            }
         } else {
             return (
-                <div className="center red">
-                    Loading
-                </div>
+                null
             );
         }
     }
@@ -63,7 +60,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => {
-    // console.log(state);
     return {
         stories: state.firestore.ordered.stories,
         nav: state.nav

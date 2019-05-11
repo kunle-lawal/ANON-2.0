@@ -1,17 +1,11 @@
 export const updateReaction = (reaction) => {
     return (dispatch, getState, { getFirebase, getFirestore }) => {
         // make async call to database
-        // console.log(getState());
         const firebase = getFirebase();
         const firestore = getFirestore();
         const user = firebase.auth().currentUser;
-        const userCollection = firestore.collection('users').doc(user.uid);
+        // const userCollection = firestore.collection('users').doc(user.uid);
         let type = reaction.type[0];
-        // console.log(firestore.collection('stories').doc(user.uid).reactions);
-        // console.log(reaction.userData.reactions[reaction.id]);
-        // console.log(reaction.userData.reactions[reaction.id].reactions[type]);
-        
-        // console.log(firestore.collection('users').doc(user.uid).ui.reactions[type].liked);
         
         // const isLiked = likeExists(postsLiked, reaction.id, type);
         // if (!isLiked) {
@@ -20,7 +14,6 @@ export const updateReaction = (reaction) => {
         //     postsLiked.splice(isLiked, 1)
         //     likeAmt = -1;
         // }
-        // console.log(reaction);
         // userCollection.set({
         //     [reaction.id]: {
         //         reaction: {
@@ -32,7 +25,6 @@ export const updateReaction = (reaction) => {
         // }, { merge: true })
         const reactionType = reaction.userData.reactions[reaction.id] ? reaction.userData.reactions[reaction.id].reaction[type] : undefined;
         const reactionState = reactionType ? reaction.userData.reactions[reaction.id].reaction[type].liked : false;
-        let uid = reaction.id;
         let likeAmt = 1;
         let liked = updateUserReactionData({ firestore, firebase }, user.uid, reaction.id, type, reactionState);
         likeAmt = liked ? -1 : 1;
@@ -49,8 +41,6 @@ export const updateReaction = (reaction) => {
         //         }
         //     })
         // }
-        // console.log(firestore.collection('stories').doc(user.uid).reactions);
-        // console.log(reaction);
         // firestore.collection('users').doc(user.uid).set({
         //     reactions: {
         //         [type]: {
@@ -65,18 +55,13 @@ export const updateReaction = (reaction) => {
         //         },
         //     }
         // }, { merge: true })
-        // console.log(postsLiked);
         // pushData(reaction.id, type);
-        // console.log(postsLiked);
-        // console.log(type, reaction.id);
         
     }
 }
 
 
 const updateUserReactionData = (data, uid, id, type, action) => {
-    // console.log(action);
-    // console.log(action);
     const {firestore} = data;
     firestore.collection('users').doc(uid).set({
         [id]: {
@@ -87,7 +72,6 @@ const updateUserReactionData = (data, uid, id, type, action) => {
             }
         }
     }, {merge: true})
-    // console.log(action);
     return action
 }
 
@@ -111,9 +95,6 @@ const incrementReaction = (data, id, type, likeAmt) => {
 
 // const pushData = (id, type) => {
 //     // if (postsLiked.hasOwnProperty(id)) {console.log(postsLiked.id)}
-//     // console.log(postsLiked);
-//     // console.log(likeExists(postsLiked, id, type));
-//     // console.log();
 //     // const reactExits = likeExists(postsLiked, id, type) ? () :()
 //     postsLiked.push(id + ":" + type)
 

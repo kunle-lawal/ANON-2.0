@@ -19,35 +19,24 @@ class Reactions extends Component {
     }
 
     toggleReaction = (e) => {
-        // console.log(this.props.profile[this.props.reactions.id].reactions[e.target.id]);
         const { auth } = this.props;
         if (!auth.uid) {
             return;
         }
         var liked = !this.state[e.target.id].highlighted;
         let className = liked ? ' highlighted' : '';
-        // console.log(liked);
         this.setState({
             [e.target.id]: {
                 highlighted: liked,
                 className: className
             }
         })
-        // return false;
-
-        // console.log(this.state);
-        // console.log(this.state[e.target.id].highlighted);
-        // console.log(this.state);
     }
 
     setHighlight = (id) => {
-        // console.log(this.props.profile[this.props.reactions.id].reactions[id]);
-        // var liked = this.props.profile[this.props.reactions.id].reactions[id].liked;
-        // console.log(this.props);
         const reactionType = this.props.profile[this.props.reactions.id] ? this.props.profile[this.props.reactions.id].reaction[id] : undefined;
         const liked = reactionType ? this.props.profile[this.props.reactions.id].reaction[id].liked : undefined;
         let className = liked ? ' highlighted' : '';
-        // console.log('Hello');
         this.setState({
             [id]: {
                 highlighted: liked,
@@ -58,7 +47,6 @@ class Reactions extends Component {
 
     componentDidMount() {
         const { auth } = this.props;
-        // console.log(auth);
         if(!auth.uid){
             return;
         }
@@ -72,7 +60,6 @@ class Reactions extends Component {
         if(!auth.uid){
             return;
         }
-        // console.log(this.props);
         const { id } = this.props.reactions;
         const { total } = this.props.reactions.story.reactions[e.target.id];
         let reactionData = {
@@ -83,17 +70,11 @@ class Reactions extends Component {
                 reactions: this.props.profile
             }
         }
-        // console.log(total);
         this.props.updateReaction(reactionData);
-        // $('#' + [e.target.id]).toggleClass("highlighted");
-        // console.log(this.props.profile[this.props.reactions.id].reactions[e.target.id].liked);
     }
 
     render() {
-        // console.log(this.props);
         const {reactions} = this.props.reactions.story;
-        // console.log(this.props, this.props.profile);
-        // this.setHighlight('thumb');
         return (
             <div className="reaction noselect">
                 <i id="thumb" className={"fas fa-thumbs-up" + this.state.thumb.className} onClick={(e) => { this.updateLikes(e); this.toggleReaction(e) }}> <span id="thumb">{reactions.thumb.total}</span></i>
@@ -111,7 +92,6 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = (state) => {
-    // console.log(state);
     return {
         auth: state.firebase.auth,
         profile: state.firebase.profile

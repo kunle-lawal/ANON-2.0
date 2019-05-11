@@ -4,6 +4,8 @@ import Navbar from './components/layout/Navbar';
 import Dashboard from './components/dashboard/Dashboard';
 import StoryDetails from './components/stories/StoryDetails';
 import CreateStory from './components/stories/CreateStory';
+import Footer from './components/layout/Footer';
+import MyProfile from './components/UserProfile/MyProfile'
 
 class App extends Component {
   render() {
@@ -17,8 +19,10 @@ class App extends Component {
                   <Route exact path='/' component={Dashboard} />
                   <Route path='/story/:id' component={StoryDetails} />
                   <Route path='/create' component={CreateStory} />
+                  <Route path='/profile' component={MyProfile} />
                   <Route path='/:id' component={Dashboard} />
                 </Switch>
+                <Footer />
               </div>
             </BrowserRouter>
         </div>

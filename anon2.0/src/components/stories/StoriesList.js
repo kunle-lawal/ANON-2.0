@@ -2,7 +2,6 @@ import React from 'react'
 import StorySummary from './StorySummary';
 
 const StoryList = ({stories}) => {
-    // console.log(stories);
     const Filter = require('bad-words'),
         filter = new Filter();
     return (

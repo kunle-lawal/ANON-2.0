@@ -5,14 +5,10 @@ import Reactions from '../miniComponents/Reactions'
 
 const StorySummary = (props) => {
     const { story } = props;
-    // console.log(props);
-    // console.log(story);
     let reactionProps = {
         story: story,
         id: props.story.id
     }
-
-    // console.log(reactionProps);
 
     let trunc_text = (text) => {
         let maxLen = 200;
@@ -38,6 +34,10 @@ const StorySummary = (props) => {
             <div className="article-date">
                 <div className="date">
                     <TimePosted time={story.createdAt} />
+                </div>
+
+                <div className="totalComments left">
+                    <h4>{story.commentsTotal === 1 ? (story.commentsTotal + ' Comment') : (story.commentsTotal + ' Comments')}</h4>
                 </div>
 
                 <Reactions reactions={reactionProps} />

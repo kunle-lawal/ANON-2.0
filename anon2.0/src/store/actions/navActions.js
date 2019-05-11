@@ -11,7 +11,6 @@ export const resetView = () => {
 }
 
 export const paginate = (val) => {
-    // console.log(val);
     return (dispatch, getstate) => {
         dispatch({type: 'PAGINATE'}, val);
     }

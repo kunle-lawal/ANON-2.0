@@ -1,4 +1,5 @@
 import storyReducer from './storyReducers'
+import commentReducer from './commentReducer'
 import reactionsReducer from './reactionsReducer'
 import authReducer from './authReducer'
 import navReducers from './navReducer'
@@ -10,6 +11,7 @@ const rootReducer = combineReducers({
     nav: navReducers,
     auth: authReducer,
     stories: storyReducer,
+    comments: commentReducer,
     reaction: reactionsReducer,
     firestore: firestoreReducer,
     firebase: firebaseReducer

@@ -13,7 +13,6 @@ const reactionReducer = (state = initState, action) => {
     switch (action.type) {
         case 'UPDATED_REACTION':
             const id = action.reaction.id;
-            // console.log("added");
             return {
                 ...state,
                 [id]: {
