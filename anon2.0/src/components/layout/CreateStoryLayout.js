@@ -5,7 +5,7 @@ const CreateStoryLayout = (props) => {
     return (
         <div className="write-container">
             <div className="write">
-                <NavLink to='/create'><h3>Write Story</h3></NavLink>
+                <NavLink to='/create'><i className="material-icons">create</i></NavLink>
             </div>
         </div>
     )

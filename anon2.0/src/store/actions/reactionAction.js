@@ -6,6 +6,8 @@ export const updateReaction = (reaction) => {
         const user = firebase.auth().currentUser;
         // const userCollection = firestore.collection('users').doc(user.uid);
         let type = reaction.type[0];
+        // console.log(type);
+        // console.log((reaction.userData.reactions[type] === undefined) ? 'reaction.userData.reaction' : reaction.userData.reactions[type]);
         
         // const isLiked = likeExists(postsLiked, reaction.id, type);
         // if (!isLiked) {
@@ -23,14 +25,16 @@ export const updateReaction = (reaction) => {
         //         }
         //     }
         // }, { merge: true })
-        const reactionType = reaction.userData.reactions[reaction.id] ? reaction.userData.reactions[reaction.id].reaction[type] : undefined;
-        const reactionState = reactionType ? reaction.userData.reactions[reaction.id].reaction[type].liked : false;
-        let likeAmt = 1;
-        let liked = updateUserReactionData({ firestore, firebase }, user.uid, reaction.id, type, reactionState);
-        likeAmt = liked ? -1 : 1;
-        incrementReaction({firebase, firestore}, reaction.id, type, likeAmt);
-
-
+        // const reactionType = reaction.userData.reactions[reaction.id] ? reaction.userData.reactions[reaction.id].reaction : undefined;
+        // const reactionState = reactionType ? reaction.userData.reactions[reaction.id].reaction[type] : false;
+        // let likeAmt = 1;
+        // let liked = updateUserReactionData({ firestore, firebase }, user.uid, reaction.id, type, (reactionState ? reactionState.liked : false));
+        // likeAmt = liked ? -1 : 1;
+        // incrementReaction({firebase, firestore}, reaction.id, type, likeAmt);
+        
+        let liked = updateUserReactionData({ firestore, firebase }, user.uid, reaction.docID, type, (reaction.userData.reactions === null) ? false : ((reaction.userData.reactions[type] === undefined) ? false : reaction.userData.reactions[type].liked));
+        let likeAmt = liked ? -1 : 1;
+        incrementReaction({ firebase, firestore }, reaction.docID, type, likeAmt);
 
         // if(!reaction) {
         //     firestore.collection('users').doc(user.uid).set({

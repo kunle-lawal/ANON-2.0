@@ -4,7 +4,6 @@ import TimePosted from '../miniComponents/TimePosted'
 
 const ProfileSummary = (props) => {
     const { thePost } = props;
-    console.log(thePost ? thePost : null);
     return (
         <div className="article">
             <Link to={'/story/' + thePost.posts.docId}>

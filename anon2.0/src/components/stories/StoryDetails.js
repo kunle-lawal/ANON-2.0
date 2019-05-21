@@ -7,12 +7,24 @@ import Reactions from '../miniComponents/Reactions'
 import WriteComments from '../miniComponents/WriteComments'
 import Comments from './Comments'
 import DashboardTemplate from '../dashboard/DashboardTemplate'
+import ReportPost from '../miniComponents/ReportPost'
 
 function StoryDetails(props) {
+    // console.log(props);
     const { story } = props;
+    // console.log(story);
     let reactionProps = {
+        id: props.match.params.id,
+        reactions: story ? story.reactions : null,
+        profile: ((props.profile ? props.profile.reaction : null) ? props.profile.reaction : null)
+    }
+
+    console.log(props)
+    let miniComponentsProps = {
+        id: props.match.params.id,
         story: story,
-        id: props.match.params.id
+        profile: props.profile,
+        profileID: props.profileID
     }
     const comment = story ? (<Comments storyId={props.match.params.id} />) : (
         <div id="main_body_container" className="main_body_container">
@@ -27,8 +39,12 @@ function StoryDetails(props) {
                         <div className="article-info">
                             <div className="article-info-title">
                                 <h2>{story.title}</h2>
+                                <h1 className='center red-text'>{(props.profile ? props.profile.banned : false) ? "BANNED POST" : ''}</h1>
+                                <ReportPost post={miniComponentsProps} />
                             </div>
-
+                            <div className="article-info-topic">
+                                <h3><span>{(story.topic) ? story.topic : 'TOPIC'}</span></h3>
+                            </div>
                             <div className="article-info-description">
                                 <p>{story.content}</p>
                             </div>
@@ -45,13 +61,10 @@ function StoryDetails(props) {
 
                             <Reactions reactions={reactionProps} />
                         </div>
-                        <div className="drag">
-                            <div></div>
-                        </div>
                     </div>
                 </div>
                 {comment}
-                <WriteComments document={reactionProps.id}/>
+                <WriteComments document={miniComponentsProps.id}/>
             </div>
         )
     } else {
@@ -67,8 +80,11 @@ const mapStateToProps = (state, ownProps) => {
     const id = ownProps.match.params.id;
     const stories = state.firestore.data.stories;
     const story = stories ? stories[id] : null;
+    // console.log(state.firebase.profile);
     return {
-        story: story
+        story: story,
+        profile: state.firebase.profile[id],
+        profileID: state.firebase.profile.id
     }
 }
 

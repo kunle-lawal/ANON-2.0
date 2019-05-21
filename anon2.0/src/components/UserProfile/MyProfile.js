@@ -3,9 +3,12 @@ import ProfileSummary from './ProfileSummary';
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
+import {scrollToTop} from '../miniComponents/scrollToTop'
 
 class MyProfile extends Component {
     render() {
+        // window.scrollTo(0, 0);
+        scrollToTop();
         const { profileStories } = this.props;
         // console.log(profileStories);
         return (

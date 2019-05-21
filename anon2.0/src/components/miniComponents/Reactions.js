@@ -18,6 +18,31 @@ class Reactions extends Component {
         }
     }
 
+    componentDidMount() {
+        const { auth } = this.props;
+        if(!auth.uid){
+            return;
+        }
+        this.setHighlight('thumb');
+        this.setHighlight('laugh');
+        this.setHighlight('shook');
+    }
+
+    setHighlight = (id) => {
+        // const reactionType = this.props.profile[this.props.reactions.docID] ? this.props.profile[this.props.reactions.docID].reaction : undefined;
+        // const liked = reactionType ? this.props.profile[this.props.reactions.docID].reaction[id] : undefined;
+        const { profile } = this.props.reactions;
+        if (profile === null) { return 0 }
+        if (profile[id] === undefined) { return 0 }
+        let className = profile[id].liked ? ' highlighted' : ''; //If the like does not exist set to false
+        this.setState({
+            [id]: {
+                highlighted: profile[id].liked,
+                className: className
+            }
+        })
+    }
+
     toggleReaction = (e) => {
         const { auth } = this.props;
         if (!auth.uid) {
@@ -33,53 +58,33 @@ class Reactions extends Component {
         })
     }
 
-    setHighlight = (id) => {
-        const reactionType = this.props.profile[this.props.reactions.id] ? this.props.profile[this.props.reactions.id].reaction[id] : undefined;
-        const liked = reactionType ? this.props.profile[this.props.reactions.id].reaction[id].liked : undefined;
-        let className = liked ? ' highlighted' : '';
-        this.setState({
-            [id]: {
-                highlighted: liked,
-                className: className
-            }
-        })
-    }
-
-    componentDidMount() {
-        const { auth } = this.props;
-        if(!auth.uid){
-            return;
-        }
-        this.setHighlight('thumb');
-        this.setHighlight('laugh');
-        this.setHighlight('shook');
-    }
-
     updateLikes = (e) => {
         const { auth } = this.props;
-        if(!auth.uid){
-            return;
-        }
-        const { id } = this.props.reactions;
-        const { total } = this.props.reactions.story.reactions[e.target.id];
+        const { id, profile, reactions } = this.props.reactions;
+        if(!auth.uid){ return; }
+        // if (profile === null) { return 0 }
+        // if (profile[id] === undefined) { return 0 }
+        const { total } = reactions[e.target.id];
         let reactionData = {
-            id: id,
+            docID: id,
             type: [e.target.id],
             val: total,
             userData: {
-                reactions: this.props.profile
+                reactions: profile
             }
         }
+        this.toggleReaction(e);
         this.props.updateReaction(reactionData);
     }
 
     render() {
-        const {reactions} = this.props.reactions.story;
+        const {id, profile, reactions} = this.props.reactions;
+        // console.log(this.props)
         return (
             <div className="reaction noselect">
-                <i id="thumb" className={"fas fa-thumbs-up" + this.state.thumb.className} onClick={(e) => { this.updateLikes(e); this.toggleReaction(e) }}> <span id="thumb">{reactions.thumb.total}</span></i>
-                <i id="laugh" className={"fas fa-grin-squint-tears" + this.state.laugh.className} onClick={(e) => { this.updateLikes(e); this.toggleReaction(e) }}><span id="laugh">{reactions.laugh.total}</span></i>
-                <i id="shook" className={"fas fa-surprise" + this.state.shook.className} onClick={(e) => { this.updateLikes(e); this.toggleReaction(e) }}><span id="shook">{reactions.shook.total}</span></i>
+                <i id="thumb" className={"fas fa-thumbs-up" + this.state.thumb.className} onClick={this.updateLikes}> <span id="thumb">{reactions.thumb.total}</span></i>
+                <i id="laugh" className={"fas fa-grin-squint-tears" + this.state.laugh.className} onClick={this.updateLikes}><span id="laugh">{reactions.laugh.total}</span></i>
+                <i id="shook" className={"fas fa-surprise" + this.state.shook.className} onClick={this.updateLikes}><span id="shook">{reactions.shook.total}</span></i>
             </div>
         )
     }
@@ -94,7 +99,6 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = (state) => {
     return {
         auth: state.firebase.auth,
-        profile: state.firebase.profile
     }
 } 
 

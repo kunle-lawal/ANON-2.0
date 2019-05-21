@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Navbar from './components/layout/Navbar';
 import Dashboard from './components/dashboard/Dashboard';
+import AdminDashboard from './components/admin/AdminDashboard';
+import Topic from './components/dashboard/Topic';
 import StoryDetails from './components/stories/StoryDetails';
 import CreateStory from './components/stories/CreateStory';
 import Footer from './components/layout/Footer';
@@ -17,10 +19,13 @@ class App extends Component {
                 <Navbar />
                 <Switch>
                   <Route exact path='/' component={Dashboard} />
+                  <Route path='/topics/:id' component={Topic} />
                   <Route path='/story/:id' component={StoryDetails} />
                   <Route path='/create' component={CreateStory} />
                   <Route path='/profile' component={MyProfile} />
-                  <Route path='/:id' component={Dashboard} />
+                  <Route exact path='/admin' component={AdminDashboard} />
+                  <Route path='/admin/:id' component={AdminDashboard} />
+                  <Route path='/page/:id' component={Dashboard} />
                 </Switch>
                 <Footer />
               </div>

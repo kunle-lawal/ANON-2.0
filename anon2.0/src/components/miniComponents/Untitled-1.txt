@@ -6,20 +6,16 @@ import {compose} from 'redux'
 import { firestoreConnect } from 'react-redux-firebase';
 import TimePosted from '../miniComponents/TimePosted'
 import Reactions from '../miniComponents/Reactions'
-import {saveData} from '../miniComponents/localstoreage'
-import {getData} from '../miniComponents/localstoreage'
-import {deleteData} from '../miniComponents/localstoreage'
 
 class CreateStory extends Component {
     state = {
-        title: (getData('story') ? getData('story').title : ''),
-        content: (getData('story') ? getData('story').content : ''),
-        topic: (getData('story') ? getData('story').topic : ''),
+        title: 'Your Post',
+        content: 'This',
+        topic: 'Looks like',
         adding: false,
         errors: false,
         storyError: null,
-        topScrolled: false,
-        underReview: true
+        topScrolled: false
     }
 
     handleChange = (e) => {
@@ -63,15 +59,12 @@ class CreateStory extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        
         const { storyError, Ids } = this.props;
         if (this.checkAuth() === false) { return 0 }
         if (this.isEmpty() === true) { return 0 }
         if (this.checkProfanity() === true) { return 0 }
         if (this.state.adding || this.state.title === '' || this.state.content === '') { this.setState({ storyError: 'Make sure you have a Title and a Story'}); return 0}
         this.setState({intervalId: setInterval(this.getTimerVal.bind(this), 1000) })
-        // deleteData('story');
-        console.log('Hello');
         this.props.createStory(this.state, { postId: Ids.postIds.totalIds, userId: Ids.postIds.totalIds});
         this.setState({
             adding: (storyError) ? false : true
@@ -93,7 +86,6 @@ class CreateStory extends Component {
     componentWillUnmount() {
         // use intervalId from the state to clear the interval
         clearInterval(this.state.intervalId);
-        saveData('story', this.state);
     }
 
     trunc_text = (text) => {
@@ -108,55 +100,59 @@ class CreateStory extends Component {
         // console.log(this.state.timerVal);
         return (
             <div className="write_container container">
-                <form className="write" onSubmit={this.handleSubmit}>
+                <form className="write">
                     <h3 className="dark-text test-darken-3">Tell us your story. Its Anonymous</h3>
-                    <h4> Anonymous Posting - (All post go under review)</h4>
+                    <h4> Anonymous Posting </h4>
                     <div className="input-fields">
                         <div className="input-field topic">
-                            <input type="text" id="topic" maxLength="30" spellCheck="true" onChange={this.handleChange} value={this.state.topic}name="topics"/>
-                            <label htmlFor="topic" className={this.state.topic ? "active" : ""}>Topic</label>
+                            <input type="text" id="topic" maxLength="30" spellCheck="true" onChange={this.handleChange} name="topics"/>
+                            <label htmlFor="topic">Topic</label>
                         </div>
 
                         <div className="input-field title">
-                            <input type="text" id='title' maxLength="30" onChange={this.handleChange} value={this.state.title} />
-                            <label htmlFor="title" className={this.state.title ? "active" : ""}>Title</label>
+                            <input type="text" id='title' maxLength="30" onChange={this.handleChange} />
+                            <label htmlFor="title">Title</label>
                         </div>
 
                         <div className="input-field textarea-field content">
-                            <textarea id="content" className="materialize-textarea" spellCheck="true" onChange={this.handleChange} value={this.state.content}></textarea>
-                            <label htmlFor="content" className={this.state.content ? "active" : ""}>My Story</label>
+                            <textarea id="content" className="materialize-textarea" spellCheck="true" onChange={this.handleChange}></textarea>
+                            <label htmlFor="content">My Story</label>
                         </div>
 
                         <div className="input-field button-input">
                             {
-                                (this.state.timerVal <= (4) || this.state.timerVal == null) ? (
+                                (this.state.timerVal < (4) || this.state.timerVal == null) ? (
                                     (this.state.timerVal > 0) ? (
                                         <p className="red-text error-message center">Wait {((4) - Math.floor(this.state.timerVal))} Minutes </p>
                                     ) : (
                                             null
                                         )
                                     ) : (
-                                        <button className="btn-large btn-flat white-text waves-effect waves-light red lato">Create</button>
+                                        <React.Fragment>
+                                            <button className="btn-large btn-flat white-text waves-effect waves-light red lato" onClick={this.handleSubmit}>Create</button>
+                                        </React.Fragment>
                                     )
                             }
+                            <button className="btn-large container btn-flat white-text waves-effect waves-light red lato"><i className="material-icons">drafts</i></button>
                             <div className="red-text error-message center">
                                 {<p>{errors}</p>}
                             </div>
                         </div>
                     </div>
                 </form>
+
                 <div className="main_body_container">
                     <div className="main_body">
                         <div className="article">
                             <div className="article-info">
                                 <div className="article-info-title">
-                                    <h2>{(this.state.title === "") ? "Your post" : this.state.title}</h2>
+                                    <h2>{this.state.title}</h2>
                                 </div>
                                 <div className="article-info-topic">
-                                    <h3><span>{(this.state.topic === "") ? "looks like" : (this.state.topic).toUpperCase()}</span></h3>
+                                    <h3><span>{(this.state.topic).toUpperCase()}</span></h3>
                                 </div>
                                 <div className="article-info-description">
-                                    <p>{(this.state.content === "") ? "this" : this.trunc_text(this.state.content)}...</p>
+                                    <p>{this.trunc_text(this.state.content)}...</p>
                                 </div>
                             </div>
 

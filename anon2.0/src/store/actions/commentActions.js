@@ -1,5 +1,3 @@
-import { database } from "firebase";
-
 export const addComment = (theComment) => {
     return (dispatch, getState, { getFirebase, getFirestore }) => {
         // make asyn call to database
@@ -28,12 +26,4 @@ export const addComment = (theComment) => {
             dispatch({ type: 'CREATED_COMMENT_ERROR', err });
         })
     }
-}
-
-const isEmpty = (obj) => {
-    for (var key in obj) {
-        if (obj[key] === null || obj[key] === '')
-            return true;
-    }
-    return false;
 }

@@ -5,11 +5,12 @@ import { addComment } from '../../store/actions/commentActions'
 class WriteComments extends Component {
     state = {
         comment: '',
+        lastComment: '',
         adding: false,
         errors: false,
         commentError: null,
         postProgress: 1, 
-        timerVal: 0
+        timerVal: 0,
     }
 
     handleChange = (e) => {
@@ -25,7 +26,7 @@ class WriteComments extends Component {
         if(this.isEmpty() === true) {return 0}
         if(this.checkProfanity() === true){return 0}
         if (this.state.adding || this.state.comment === '') { this.setState({ storyError: 'Make sure you have a comment' }); return 0 }
-        this.setState({ errors: '', timerVal: 0, intervalId: setInterval(this.getTimerVal.bind(this), 1000)})
+        this.setState({lastComment:this.state.comment, errors: '', timerVal: 0, intervalId: setInterval(this.getTimerVal.bind(this), 1000)})
         this.props.addComment({ comment: this.state.comment, fbDocument: this.props.document, userProfile: this.props.profile});
         this.setState({
             adding: (commentError) ? false : true,
@@ -68,7 +69,6 @@ class WriteComments extends Component {
 
     getTimerVal = () => {
         const { lastComment } = this.props.profile;
-        console.log(this.state.timerVal);
         if (this.state.timerVal >= 60) { clearInterval(this.state.intervalId); }
         this.setState({ timerVal: (((Date.now()) - lastComment) / 1000) })
     }
@@ -76,7 +76,7 @@ class WriteComments extends Component {
     componentDidMount = () => {
         var intervalId = setInterval(this.getTimerVal.bind(this), 1000);
 
-        this.setState({ intervalId: intervalId});
+        this.setState({ intervalId: intervalId, adding: false});
     }
 
     componentWillUnmount () {
@@ -86,29 +86,66 @@ class WriteComments extends Component {
 
     render() {
         const { errors } = this.state;
+        // console.log(this.props);
         // const { lastComment } = this.props.profile;
         // let timerVal = (((Date.now()) - lastComment) / 1000);
-        console.log(this.state);
         return (
             <div className="write_comment_container">
+                {
+                    (this.state.comment === '') ? (
+                        (this.state.adding) ? (
+                            <div className="comment_container post">
+                                <div className="comment">
+                                    <h4>User #1 said</h4>
+                                    <div className="comment-info">
+                                        <div className="comment-info-description">
+                                            <p>{this.state.lastComment}</p>
+                                        </div>
+                                    </div>
+                                    <div className="comment-date">
+                                        <div className="date">
+                                            <h4>3 Minutes ago</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (null)
+                    ) : (
+                        <div className="comment_container">
+                            <div className="comment">
+                                    <h4>User #1 said</h4>
+                                    <div className="comment-info">
+                                        <div className="comment-info-description">
+                                            <p>{this.state.comment}</p>
+                                        </div>
+                                    </div>
+                                    <div className="comment-date">
+                                        <div className="date">
+                                            <h4>3 Minutes ago</h4>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    )
+                }
                 <div className="write_comment">
                     <h3>Write your comment</h3>
                     <form className="write comment" onSubmit={this.handleSubmit}>
                         <div className="input-field textarea-field">
-                            <textarea id="comment" className="materialize-textarea" maxLength="100" spellCheck="true" onChange={this.handleChange} value={this.state.comment}></textarea>
+                            <textarea id="comment" className="materialize-textarea" maxLength="200" spellCheck="true" onChange={this.handleChange} value={this.state.comment}></textarea>
                             <label htmlFor="comment">Comment</label>
                         </div>
 
                         <div className="input-field button-input">
                             {
-                                (this.state.adding || this.state.timerVal < 60) ? (
+                                (this.state.timerVal < 60) ? (
                                     (this.state.timerVal > 0) ? (
                                         <p className="red-text error-message center">Wait {Math.trunc(60 - this.state.timerVal)} seconds </p>
                                     ) : (
                                         null
                                     )
                                 ) : (
-                                        <div className="btn-large waves-effect waves-light red lato" onClick={this.handleSubmit}>Comment</div>
+                                        <div className="btn-large btn-flat white-text waves-effect waves-light red lato" onClick={this.handleSubmit}>Comment</div>
                                     )
                             }
                             <div className="red-text error-message center">

@@ -154,11 +154,16 @@ nav a {
   color: white;
 }
 
+button {
+  font-family: "Quicksand", sans-serif;
+}
+
 .btn-large {
   transition: all 0.2s;
   width: inherit;
   position: relative;
   top: 0px;
+  background-color: #bd3434 !important;
 }
 .btn-large:active {
   position: relative;
@@ -177,7 +182,24 @@ nav a {
   color: #bd3434 !important;
 }
 
+.noselect {
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+                                supported by Chrome and Opera */
+}
+
 /*Main Font-sizes*/
+/*FONTS*/
 label {
   font-family: "Quicksand", sans-serif;
 }
@@ -196,30 +218,30 @@ label {
 }
 
 h1 {
-  font-size: 55px;
-  line-height: 60px;
+  font-size: 45px;
+  line-height: 50px;
   font-family: "Lato", sans-serif;
 }
 @media only screen and (max-width: 700px) {
   h1 {
-    font-size: 27.5px;
+    font-size: 28.125px;
   }
 }
 @media only screen and (min-width: 701px) and (max-width: 1257px) {
   h1 {
-    font-size: 36.6666666667px;
+    font-size: 30px;
   }
 }
 
 h2 {
-  font-size: 60px;
-  line-height: 65px;
+  font-size: 30px;
+  line-height: 35px;
   font-family: "Quicksand", sans-serif;
 }
 @media only screen and (max-width: 700px) {
   h2 {
-    font-size: 30px;
-    line-height: 35px;
+    font-size: 26px;
+    line-height: 20px;
   }
 }
 
@@ -259,24 +281,72 @@ p {
   }
 }
 
-.openArticle {
-  min-height: 100vh !important;
+.post {
+  animation-name: post;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
 }
 
-.noselect {
-  -webkit-touch-callout: none;
-  /* iOS Safari */
-  -webkit-user-select: none;
-  /* Safari */
-  -khtml-user-select: none;
-  /* Konqueror HTML */
-  -moz-user-select: none;
-  /* Firefox */
-  -ms-user-select: none;
-  /* Internet Explorer/Edge */
-  user-select: none;
-  /* Non-prefixed version, currently
-                                supported by Chrome and Opera */
+@keyframes post {
+  from {
+    position: relative;
+    top: 0;
+  }
+  to {
+    position: relative;
+    top: -200px;
+    opacity: 0;
+  }
+}
+.tooltip {
+  position: relative;
+  display: inline-block;
+  width: fit-content;
+  /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #bd3434;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  font-family: "Quicksand", sans-serif !important;
+  /* Position the tooltip text */
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  top: -15px;
+  /* Fade in tooltip */
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #bd3434 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+  top: -30px;
+}
+
+.openArticle {
+  min-height: 100vh !important;
 }
 
 .main_container {
@@ -357,12 +427,6 @@ p {
     background-color: #222;
   }
 }
-.main_container .main .top_section .nav_items .write-container .write:hover {
-  box-shadow: 0px 1px 5px #912323;
-}
-.main_container .main .top_section .nav_items .write-container .write:active {
-  box-shadow: inset 1px 1px 5px #912323;
-}
 .main_container .main .top_section .nav_items .write-container .profileView {
   margin: 0 30px;
 }
@@ -432,6 +496,15 @@ p {
 .main_container .main .write_container .write .input-fields {
   margin-top: 70px;
 }
+.main_container .main .write_container .write .input-fields .topic {
+  width: 10%;
+  margin-bottom: 50px;
+}
+@media only screen and (max-width: 700px) {
+  .main_container .main .write_container .write .input-fields .topic {
+    width: 30%;
+  }
+}
 .main_container .main .write_container .write .input-fields .textarea-field {
   margin-top: 30px;
 }
@@ -463,11 +536,12 @@ p {
 .main_container .main .main_body_container .comment_container .comment {
   margin: 20px 0px;
   border-bottom: 1px solid rgba(200, 200, 200, 0.8);
+  box-shadow: 0px 1px 1px #f1f1f1;
   padding: 30px;
-  box-shadow: 0px 10px 10px #f1f1f1;
   width: 800px;
-  margin: auto 15%;
+  margin: 10px 15%;
   min-height: 10px;
+  transition: all 0.7s;
 }
 @media only screen and (max-width: 700px) {
   .main_container .main .main_body_container .comment_container .comment {
@@ -483,8 +557,18 @@ p {
 }
 @media only screen and (min-width: 701px) and (max-width: 1257px) {
   .main_container .main .main_body_container .comment_container .comment {
-    width: 90%;
+    width: 80%;
     margin: auto;
+  }
+}
+@media screen and (min-width: 1259px) and (max-width: 1440px) {
+  .main_container .main .main_body_container .comment_container .comment:hover {
+    box-shadow: 0px 5px 10px #cecece;
+  }
+}
+@media screen and (min-width: 1441px) {
+  .main_container .main .main_body_container .comment_container .comment:hover {
+    box-shadow: 0px 5px 10px #cecdcd;
   }
 }
 .main_container .main .main_body_container .comment_container .comment-info {
@@ -513,7 +597,7 @@ p {
 }
 @media only screen and (min-width: 701px) and (max-width: 1257px) {
   .main_container .main .main_body_container .write_comment_container .write_comment {
-    width: 90%;
+    width: 80%;
     margin: auto;
   }
 }
@@ -546,25 +630,21 @@ p {
   position: relative;
   top: 1px;
 }
-.main_container .main .main_body_container .main_body .article:hover {
-  position: relative;
-  top: -5px;
-}
 @media only screen and (max-width: 700px) {
   .main_container .main .main_body_container .main_body .article {
     width: 100%;
     margin: auto;
   }
 }
-@media only screen and (min-width: 701px) and (max-width: 1257px) {
+@media only screen and (min-width: 701px) and (max-width: 837px) {
   .main_container .main .main_body_container .main_body .article {
-    width: 75%;
+    width: 90%;
     margin: auto;
   }
 }
-@media only screen and (min-width: 701px) and (max-width: 837px) {
+@media only screen and (min-width: 701px) and (max-width: 1257px) {
   .main_container .main .main_body_container .main_body .article {
-    width: 100%;
+    width: 80%;
     margin: auto;
   }
 }
@@ -573,10 +653,6 @@ p {
   transition: all 0.3s;
   position: relative;
   top: 1px;
-}
-.main_container .main .main_body_container .main_body .article-info:hover {
-  color: #4c6daa;
-  top: -3px;
 }
 @media only screen and (max-width: 700px) {
   .main_container .main .main_body_container .main_body .article-info {
@@ -595,15 +671,117 @@ p {
   width: 100%;
   font-weight: 900;
 }
+.main_container .main .main_body_container .main_body .article-info-title i {
+  margin: auto 10px;
+  color: #a09d9dbd;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  top: 0;
+  color: #222;
+  margin-top: -28px;
+  cursor: pointer;
+}
+@media only screen and (max-width: 700px) {
+  .main_container .main .main_body_container .main_body .article-info-title i {
+    margin-top: -20px;
+  }
+}
+.main_container .main .main_body_container .main_body .article-info-title .highlighted {
+  color: #222;
+  position: relative;
+  color: blue;
+}
+.main_container .main .main_body_container .main_body .article-info-title .reportClosed {
+  width: fit-content;
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: auto;
+  opacity: 0;
+  visibility: hidden;
+}
+.main_container .main .main_body_container .main_body .article-info-title .report {
+  width: fit-content;
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: auto;
+  transition: all 0.5s;
+  opacity: 1;
+  visibility: visible;
+  z-index: 99;
+  background: white;
+}
+.main_container .main .main_body_container .main_body .article-info-title .report ul {
+  min-width: 30px;
+  width: 200px;
+  box-shadow: 0px 1px 10px #f1f1f1;
+}
+.main_container .main .main_body_container .main_body .article-info-title .report ul li {
+  padding-bottom: 10px;
+  padding-top: 10px;
+  border: 0px solid red;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+}
+.main_container .main .main_body_container .main_body .article-info-title .report ul li h3 {
+  font-size: 20px;
+}
+@media only screen and (max-width: 700px) {
+  .main_container .main .main_body_container .main_body .article-info-title .report ul li h3 {
+    font-size: 15px;
+  }
+}
+.main_container .main .main_body_container .main_body .article-info-title .report ul li i {
+  margin-top: initial;
+}
+.main_container .main .main_body_container .main_body .article-info-title .report ul .collection-header {
+  padding-bottom: 30px;
+  border-bottom: 1px solid #f1f1f1;
+}
+.main_container .main .main_body_container .main_body .article-info-title .report ul .collection-item {
+  cursor: pointer;
+  font-size: 14px;
+}
+@media screen and (min-width: 1259px) and (max-width: 1440px) {
+  .main_container .main .main_body_container .main_body .article-info-title .report ul .collection-item:hover {
+    background-color: #f1f1f1;
+  }
+}
+@media screen and (min-width: 1441px) {
+  .main_container .main .main_body_container .main_body .article-info-title .report ul .collection-item:hover {
+    background-color: #f1f1f1;
+  }
+}
 .main_container .main .main_body_container .main_body .article-info-description {
   margin-top: 20px;
   width: 100%;
+}
+.main_container .main .main_body_container .main_body .article-info-topic {
+  color: red;
+  width: 100%;
+  margin: 10px auto;
+}
+.main_container .main .main_body_container .main_body .article-info-topic span {
+  min-width: 3rem;
+  padding: 2px 6px;
+  font-size: 1rem;
+  line-height: 22px;
+  height: 22px;
+  color: #ffffff;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  background-color: #bd3434 !important;
+  border-radius: 3px;
+  font-weight: 300;
+  font-size: 0.8rem;
 }
 .main_container .main .main_body_container .main_body .article-date {
   text-align: left;
   display: grid;
   grid-template-columns: 1fr 1fr 2fr;
-  width: 70%;
+  width: 90%;
   margin: 50px 0;
 }
 @media only screen and (max-width: 700px) {
@@ -626,19 +804,15 @@ p {
   .main_container .main .main_body_container .main_body .article-date .reaction {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    width: 45%;
-    margin-top: 10px;
+    min-width: 60vw;
+    width: fit-content;
+    margin-top: 20px;
   }
 }
 .main_container .main .main_body_container .main_body .article-date .reaction .highlighted {
   color: #222;
   position: relative;
   top: -4px;
-}
-@media only screen and (max-width: 700px) {
-  .main_container .main .main_body_container .main_body .article-date .reaction {
-    margin-top: 50px;
-  }
 }
 .main_container .main .main_body_container .main_body .article-date .reaction i {
   margin: auto 10px;
@@ -651,7 +825,7 @@ p {
 @media only screen and (max-width: 700px) {
   .main_container .main .main_body_container .main_body .article-date .reaction i {
     margin: auto 0px;
-    font-size: 15px;
+    font-size: 18px;
   }
 }
 @media screen and (min-width: 1259px) and (max-width: 1440px) {
@@ -686,15 +860,6 @@ p {
   .main_container .main .main_body_container .main_body .article-date .reaction i {
     min-width: 10px;
   }
-  .main_container .main .main_body_container .main_body .article-date .reaction i:hover {
-    color: #222;
-    position: relative;
-    top: -2px;
-  }
-  .main_container .main .main_body_container .main_body .article-date .reaction i:active {
-    top: 2px;
-    font-size: 17px;
-  }
 }
 .main_container .main .main_body_container .main_body .article-date .reaction i span {
   font-family: "Quicksand", sans-serif;
@@ -720,7 +885,7 @@ p {
   font-family: "Quicksand", sans-serif;
 }
 .main_container .main .page-footer {
-  margin-top: 30%;
+  margin-top: 15%;
   min-height: 30px;
   padding-bottom: 20px;
   background-color: #bd3434;
