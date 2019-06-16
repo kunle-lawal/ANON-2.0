@@ -37,29 +37,36 @@ function StoryDetails(props) {
                 <div className="main_body">
                     <div className="article">
                         <div className="article-info">
+                            <div className="article-info-topic">
+                                <h3><span>{(story.topic) ? story.topic : 'TOPIC'}</span></h3>
+                            </div>
                             <div className="article-info-title">
                                 <h2>{story.title}</h2>
                                 <h1 className='center red-text'>{(props.profile ? props.profile.banned : false) ? "BANNED POST" : ''}</h1>
                                 <ReportPost post={miniComponentsProps} />
                             </div>
-                            <div className="article-info-topic">
-                                <h3><span>{(story.topic) ? story.topic : 'TOPIC'}</span></h3>
-                            </div>
+                            
                             <div className="article-info-description">
                                 <p>{story.content}</p>
                             </div>
                         </div>
 
-                        <div className="article-date">
-                            <div className="date">
-                                <TimePosted time={story.createdAt} />
+                        <div className="article-misc">
+                            <div className="article-misc-detail">
+                                <div className="totalComments icon_container">
+                                    <i class="far fa-comment icon"><span>{story.commentsTotal}</span></i>
+                                </div>
+                                <Reactions reactions={reactionProps} />
+                                <div className="views icon_container noselect">
+                                    <i id="views" class="far fa-eye icon"><span id="views">10</span></i>
+                                </div>
                             </div>
 
-                            <div className="totalComments left container">
-                                <h4>{story.commentsTotal === 1 ? (story.commentsTotal + ' Comment') : (story.commentsTotal + ' Comments')}</h4>
+                            <div className="article-misc-date">
+                                <div className="date">
+                                    <TimePosted time={story.createdAt} />
+                                </div>
                             </div>
-
-                            <Reactions reactions={reactionProps} />
                         </div>
                     </div>
                 </div>

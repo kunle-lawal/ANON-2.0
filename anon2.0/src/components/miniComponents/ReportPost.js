@@ -76,8 +76,7 @@ class ReportPost extends Component {
 
                         <div className={this.state.flagUIOpened ? "report container" : "reportClosed container"}>
                             <ul className="collection right">
-                                <li className="collection-header">
-                                    <i className="material-icons right noselect" onClick={this.toggleFlagUI}>keyboard_arrow_up</i>
+                                <li className="collection-header" onClick={this.toggleFlagUI}>
                                 </li>
                                 <li id="I don't like this post" className="collection-item" value='2' onClick={this.addFlag}>I don't like this post</li>
                                 <li id="Block posts from this user" className="collection-item red-text" value='1' onClick={this.addFlag}>Block posts from this user</li>

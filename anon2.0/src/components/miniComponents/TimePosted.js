@@ -7,11 +7,11 @@ function sortTime(time) {
     var curr_time = new Date().getTime();
     var time_diff = (((curr_time - time) / 1000) / 60).toFixed(0);
     if ((time_diff / 60) >= 24) {
-        time = ((time_diff / 60) / 24).toFixed(0) + " days ago";
+        time = ((time_diff / 60) / 24).toFixed(0) + "d";
     } else if (time_diff >= 60) {
-        time = (time_diff / 60).toFixed(0) + " Hours ago";
+        time = (time_diff / 60).toFixed(0) + "h";
     } else {
-        time = time_diff + " Minutes ago";
+        time = time_diff + "m";
     }
     return time;
 }
@@ -19,7 +19,7 @@ function sortTime(time) {
 function TimePosted(props) {
     const { time } = props;
     return (
-        <h4>{sortTime(time)}</h4>
+        <h4><i class="far fa-clock"></i> {sortTime(time)}</h4>
     )
 }
 

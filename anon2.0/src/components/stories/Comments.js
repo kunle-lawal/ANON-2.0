@@ -10,11 +10,13 @@ const Comments = (props) => {
     const { comments } = props;
     return (
         <div className="comment_container">
-            {comments && comments.map((theComment, index) => {
-                return (
-                    <CommentSummary theComment={theComment} key={index}/>
-                )
-            })}
+            <div className='comments'>
+                {comments && comments.map((theComment, index) => {
+                    return (
+                        <CommentSummary theComment={theComment} key={index} />
+                    )
+                })}
+            </div>
         </div>
     )
 }

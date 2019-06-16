@@ -7,8 +7,8 @@ const SignIn = (props) => {
         return null;
     } else {
         return (
-            <div className="write-container">
-                <div className="write">
+            <div className="item-container">
+                <div className="signIn item sign">
                     <h3 onClick={() => { props.signIn(props.userInfo.Ids.userIds)}}>Sign In</h3>
                 </div>
             </div>

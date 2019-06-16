@@ -24,7 +24,7 @@ class WriteComments extends Component {
         const { commentError, Ids } = this.props;
         if(this.checkAuth() === false){return 0}
         if(this.isEmpty() === true) {return 0}
-        if(this.checkProfanity() === true){return 0}
+        // if(this.checkProfanity() === true){return 0}
         if (this.state.adding || this.state.comment === '') { this.setState({ storyError: 'Make sure you have a comment' }); return 0 }
         this.setState({lastComment:this.state.comment, errors: '', timerVal: 0, intervalId: setInterval(this.getTimerVal.bind(this), 1000)})
         this.props.addComment({ comment: this.state.comment, fbDocument: this.props.document, userProfile: this.props.profile});
@@ -91,52 +91,13 @@ class WriteComments extends Component {
         // let timerVal = (((Date.now()) - lastComment) / 1000);
         return (
             <div className="write_comment_container">
-                {
-                    (this.state.comment === '') ? (
-                        (this.state.adding) ? (
-                            <div className="comment_container post">
-                                <div className="comment">
-                                    <h4>User #1 said</h4>
-                                    <div className="comment-info">
-                                        <div className="comment-info-description">
-                                            <p>{this.state.lastComment}</p>
-                                        </div>
-                                    </div>
-                                    <div className="comment-date">
-                                        <div className="date">
-                                            <h4>3 Minutes ago</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ) : (null)
-                    ) : (
-                        <div className="comment_container">
-                            <div className="comment">
-                                    <h4>User #1 said</h4>
-                                    <div className="comment-info">
-                                        <div className="comment-info-description">
-                                            <p>{this.state.comment}</p>
-                                        </div>
-                                    </div>
-                                    <div className="comment-date">
-                                        <div className="date">
-                                            <h4>3 Minutes ago</h4>
-                                        </div>
-                                    </div>
-                            </div>
-                        </div>
-                    )
-                }
                 <div className="write_comment">
-                    <h3>Write your comment</h3>
                     <form className="write comment" onSubmit={this.handleSubmit}>
                         <div className="input-field textarea-field">
-                            <textarea id="comment" className="materialize-textarea" maxLength="200" spellCheck="true" onChange={this.handleChange} value={this.state.comment}></textarea>
-                            <label htmlFor="comment">Comment</label>
+                            <textarea id="comment" className="materialize-textarea" maxLength="200" spellCheck="true" onChange={this.handleChange} value={this.state.comment} placeholder="Add comment"></textarea>
                         </div>
 
-                        <div className="input-field button-input">
+                        <div className={"input-field button-input " + (this.state.comment.length < 10 ? "disable" : "")}>
                             {
                                 (this.state.timerVal < 60) ? (
                                     (this.state.timerVal > 0) ? (
@@ -145,7 +106,7 @@ class WriteComments extends Component {
                                         null
                                     )
                                 ) : (
-                                        <div className="btn-large btn-flat white-text waves-effect waves-light red lato" onClick={this.handleSubmit}>Comment</div>
+                                        <div className="btn-flat waves-effect waves-light btn-post " onClick={this.handleSubmit}>Comment</div>
                                     )
                             }
                             <div className="red-text error-message center">

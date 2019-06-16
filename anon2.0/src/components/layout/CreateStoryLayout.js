@@ -3,9 +3,10 @@ import { NavLink } from 'react-router-dom'
 
 const CreateStoryLayout = (props) => {
     return (
-        <div className="write-container">
-            <div className="write">
-                <NavLink to='/create'><i className="material-icons">create</i></NavLink>
+        <div className="item-container">
+            <div className="write item">
+               
+                <NavLink to='/create'> <i class="fas fa-pencil-alt"></i></NavLink>
             </div>
         </div>
     )

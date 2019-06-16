@@ -12,14 +12,21 @@ import {deleteData} from '../miniComponents/localstoreage'
 
 class CreateStory extends Component {
     state = {
-        title: (getData('story') ? getData('story').title : ''),
-        content: (getData('story') ? getData('story').content : ''),
-        topic: (getData('story') ? getData('story').topic : ''),
+        title: '',
+        content: '',
+        topic: '',
         adding: false,
         errors: false,
         storyError: null,
         topScrolled: false,
-        underReview: true
+        underReview: true,
+        openDropdown: false
+    }
+
+    handleTopic = (e) => {
+        this.setState({
+            topic: e.target.id
+        })
     }
 
     handleChange = (e) => {
@@ -103,31 +110,21 @@ class CreateStory extends Component {
         return text.substring(0, maxLen);
     }
 
+    toggleDropdown = () => {
+        this.setState({
+            openDropdown: !this.state.openDropdown
+        })
+    }
+
     render() {
         const { errors } = this.state;
+        const topics = ['Misc.', 'Tech News', 'Money', 'Education', 'Science'];
         // console.log(this.state.timerVal);
         return (
             <div className="write_container container">
                 <form className="write" onSubmit={this.handleSubmit}>
-                    <h3 className="dark-text test-darken-3">Tell us your story. Its Anonymous</h3>
-                    <h4> Anonymous Posting - (All post go under review)</h4>
-                    <div className="input-fields">
-                        <div className="input-field topic">
-                            <input type="text" id="topic" maxLength="30" spellCheck="true" onChange={this.handleChange} value={this.state.topic}name="topics"/>
-                            <label htmlFor="topic" className={this.state.topic ? "active" : ""}>Topic</label>
-                        </div>
-
-                        <div className="input-field title">
-                            <input type="text" id='title' maxLength="30" onChange={this.handleChange} value={this.state.title} />
-                            <label htmlFor="title" className={this.state.title ? "active" : ""}>Title</label>
-                        </div>
-
-                        <div className="input-field textarea-field content">
-                            <textarea id="content" className="materialize-textarea" spellCheck="true" onChange={this.handleChange} value={this.state.content}></textarea>
-                            <label htmlFor="content" className={this.state.content ? "active" : ""}>My Story</label>
-                        </div>
-
-                        <div className="input-field button-input">
+                    <div className="header">
+                        <div className="button-input">
                             {
                                 (this.state.timerVal <= (4) || this.state.timerVal == null) ? (
                                     (this.state.timerVal > 0) ? (
@@ -135,50 +132,43 @@ class CreateStory extends Component {
                                     ) : (
                                             null
                                         )
-                                    ) : (
-                                        <button className="btn-large btn-flat white-text waves-effect waves-light red lato">Create</button>
+                                ) : (
+                                        <button className="btn-flat white-text waves-effect waves-light">POST</button>
                                     )
                             }
+                        </div>
+                        <h3 className="dark-text test-darken-3">Tell us your story.</h3>
+                    </div>
+                    <div className="input-fields">
+                        <div className="input-field topic">
+                            <div className="dropdown" onClick={this.toggleDropdown}>
+                                <span>Topic - {this.state.topic}</span>
+                                <div className={"dropdown_content " + (this.state.openDropdown ? '' : 'display_none')}>
+                                    {topics.map((topic, id) => {
+                                        return (
+                                            <p id={topic} key={id} className="dropdown_item noselect" onClick={this.handleTopic}>{topic}</p>
+                                        )
+                                    })}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="input-field title">
+                            <input type="text" id='title' maxLength="30" onChange={this.handleChange} value={this.state.title} placeholder="Title"/>
+                        </div>
+
+                        <div className="input-field textarea-field content">
+                            <h4>Keep it civil</h4>
+                            <textarea id="content" className="materialize-textarea" spellCheck="true" onChange={this.handleChange} value={this.state.content} placeholder="Write your post here"></textarea>
+                        </div>
+
+                        <div className="input-field button-input">
                             <div className="red-text error-message center">
                                 {<p>{errors}</p>}
                             </div>
                         </div>
                     </div>
                 </form>
-                <div className="main_body_container">
-                    <div className="main_body">
-                        <div className="article">
-                            <div className="article-info">
-                                <div className="article-info-title">
-                                    <h2>{(this.state.title === "") ? "Your post" : this.state.title}</h2>
-                                </div>
-                                <div className="article-info-topic">
-                                    <h3><span>{(this.state.topic === "") ? "looks like" : (this.state.topic).toUpperCase()}</span></h3>
-                                </div>
-                                <div className="article-info-description">
-                                    <p>{(this.state.content === "") ? "this" : this.trunc_text(this.state.content)}...</p>
-                                </div>
-                            </div>
-
-                            <div className="article-date">
-                                <div className="date">
-                                    <TimePosted time={1557546857489} />
-                                </div>
-
-                                <div className="totalComments left container">
-                                    <h4> 10 Comments</h4>
-                                </div>
-
-                                <div className="reaction noselect">
-                                    <i id="thumb" className="fas fa-thumbs-up highlighted"> <span id="thumb">100</span></i>
-                                    <i id="laugh" className="fas fa-grin-squint-tears"><span id="laugh">0</span></i>
-                                    <i id="shook" className="fas fa-surprise"><span id="shook">20</span></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         )
     }

@@ -1,0 +1,16 @@
+npm install -g firebase-tools
+firebase login
+firebase init
+npx create-react-app
+npm install react-router-dom
+npm install redux
+npm install redux react-redux
+npm install redux-thunk
+npm install firebase
+npm install react-redux-firebase
+npm install redux-firestore
+npm i -save react-redux@^5.1.1
+npm uninstall react-redux
+npm i react-redux@5
+npm i -save react-redux@^5.1.1
+firebase deploy

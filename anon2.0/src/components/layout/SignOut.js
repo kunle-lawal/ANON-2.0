@@ -8,8 +8,8 @@ class SignOut extends Component {
     }
     render() {
         return (
-            <div className="write-container">
-                <div className="write">
+            <div className="item-container">
+                <div className="item sign">
                     <h3 onClick={this.signOutAnonymous}>Sign Out</h3>
                 </div>
             </div>

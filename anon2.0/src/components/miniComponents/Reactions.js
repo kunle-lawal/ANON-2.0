@@ -6,16 +6,8 @@ class Reactions extends Component {
     state = {
         thumb: {
             highlighted: false,
-            className: ''
+            className: 'far fa-thumbs-up icon'
         },
-        laugh: {
-            highlighted: false,
-            className: ''
-        },
-        shook: {
-            highlighted: false,
-            className: ''
-        }
     }
 
     componentDidMount() {
@@ -24,8 +16,6 @@ class Reactions extends Component {
             return;
         }
         this.setHighlight('thumb');
-        this.setHighlight('laugh');
-        this.setHighlight('shook');
     }
 
     setHighlight = (id) => {
@@ -34,7 +24,7 @@ class Reactions extends Component {
         const { profile } = this.props.reactions;
         if (profile === null) { return 0 }
         if (profile[id] === undefined) { return 0 }
-        let className = profile[id].liked ? ' highlighted' : ''; //If the like does not exist set to false
+        let className = profile[id].liked ? 'fas fa-thumbs-up icon highlighted' : 'far fa-thumbs-up icon'; //If the like does not exist set to false
         this.setState({
             [id]: {
                 highlighted: profile[id].liked,
@@ -49,7 +39,7 @@ class Reactions extends Component {
             return;
         }
         var liked = !this.state[e.target.id].highlighted;
-        let className = liked ? ' highlighted' : '';
+        let className = liked ? 'fas fa-thumbs-up icon highlighted' : 'far fa-thumbs-up icon';
         this.setState({
             [e.target.id]: {
                 highlighted: liked,
@@ -81,10 +71,8 @@ class Reactions extends Component {
         const {id, profile, reactions} = this.props.reactions;
         // console.log(this.props)
         return (
-            <div className="reaction noselect">
-                <i id="thumb" className={"fas fa-thumbs-up" + this.state.thumb.className} onClick={this.updateLikes}> <span id="thumb">{reactions.thumb.total}</span></i>
-                <i id="laugh" className={"fas fa-grin-squint-tears" + this.state.laugh.className} onClick={this.updateLikes}><span id="laugh">{reactions.laugh.total}</span></i>
-                <i id="shook" className={"fas fa-surprise" + this.state.shook.className} onClick={this.updateLikes}><span id="shook">{reactions.shook.total}</span></i>
+            <div className="reaction icon_container noselect">
+                <i id="thumb" className={this.state.thumb.className} onClick={this.updateLikes}> <span id="thumb">{reactions.thumb.total}</span></i>
             </div>
         )
     }

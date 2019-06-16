@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Navbar from './components/layout/Navbar';
+import WelcomePage from './components/layout/WelcomePage';
 import Dashboard from './components/dashboard/Dashboard';
 import AdminDashboard from './components/admin/AdminDashboard';
 import Topic from './components/dashboard/Topic';
 import StoryDetails from './components/stories/StoryDetails';
 import CreateStory from './components/stories/CreateStory';
+import MyProfile from './components/UserProfile/MyProfile';
 import Footer from './components/layout/Footer';
-import MyProfile from './components/UserProfile/MyProfile'
 
 class App extends Component {
   render() {
@@ -26,6 +27,8 @@ class App extends Component {
                   <Route exact path='/admin' component={AdminDashboard} />
                   <Route path='/admin/:id' component={AdminDashboard} />
                   <Route path='/page/:id' component={Dashboard} />
+                  <Route path='/welcome' component={WelcomePage} />
+                  <Route component={Dashboard} />
                 </Switch>
                 <Footer />
               </div>

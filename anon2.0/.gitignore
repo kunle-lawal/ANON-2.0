@@ -4,7 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
-/config
+old
 
 # testing
 /coverage
@@ -31,3 +31,4 @@ firebase.json
 
 index.css.map
 /old/*
+node_modules
