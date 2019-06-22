@@ -26,7 +26,7 @@ const WelcomePage = (props) => {
                 <br/>
                 <br/>
                 <h2>Join the Conversation</h2>
-                <SignUpUi />
+                <SignUpUi/>
             </div>
         </div>
     )

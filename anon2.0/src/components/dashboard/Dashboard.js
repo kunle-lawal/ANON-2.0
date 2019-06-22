@@ -9,7 +9,6 @@ import { toggleMobileNav, resetView } from '../../store/actions/navActions'
 
 class Dashboard extends Component {
     state = {
-        endAt: 10,
         scrolled: false
     }
 
@@ -28,21 +27,20 @@ class Dashboard extends Component {
             // console.log(this.props);
             return !(this.props.banList.includes(story.userID))
         })) : [];
-        let paginatedStories = filteredStories ? filteredStories.slice((this.state.endAt * pageId) - this.state.endAt, (this.state.endAt * pageId)) : []
+        // let paginatedStories = filteredStories ? filteredStories.slice((this.state.endAt * pageId) - this.state.endAt, (this.state.endAt * pageId)) : []
         // console.log(paginatedStories)
-        let paginationState = {
-            pagVal: filteredStories ? filteredStories.length / this.state.endAt : 0,
-            offset: pageId,
-            totalPages: (((filteredStories ? filteredStories.length : 1) / this.state.endAt)) < 1 ? 1 : Math.ceil((filteredStories ? filteredStories.length : 1) / this.state.endAt),
-            pageType: 'page'
-        }
+        // let paginationState = {
+        //     pagVal: filteredStories ? filteredStories.length / this.state.endAt : 0,
+        //     offset: pageId,
+        //     totalPages: (((filteredStories ? filteredStories.length : 1) / this.state.endAt)) < 1 ? 1 : Math.ceil((filteredStories ? filteredStories.length : 1) / this.state.endAt),
+        //     pageType: 'page'
+        // }
 
         if (!nav.mobileToggled) {
             if (filteredStories) {
                 return (
                     <div id="main_body_container" className="main_body_container">
-                        <StoryList stories={paginatedStories} />
-                        <Pagination paginationState={paginationState}/>
+                        <StoryList stories={filteredStories} />
                     </div>
                 )
             } else {
@@ -79,6 +77,9 @@ const mapStateToProps = (state) => {
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect([
-        { collection: 'stories', orderBy: ['time', 'desc'], limit: 50}
+        { collection: 'stories', orderBy: ['time', 'desc'], limit: 10}
     ])
 )(Dashboard)
+
+
+// <Pagination paginationState={paginationState} />

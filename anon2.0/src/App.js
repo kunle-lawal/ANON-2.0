@@ -20,6 +20,7 @@ class App extends Component {
                 <Navbar />
                 <Switch>
                   <Route exact path='/' component={Dashboard} />
+                  <Route path='/welcome' component={WelcomePage} />
                   <Route path='/topics/:id' component={Topic} />
                   <Route path='/story/:id' component={StoryDetails} />
                   <Route path='/create' component={CreateStory} />
@@ -27,10 +28,8 @@ class App extends Component {
                   <Route exact path='/admin' component={AdminDashboard} />
                   <Route path='/admin/:id' component={AdminDashboard} />
                   <Route path='/page/:id' component={Dashboard} />
-                  <Route path='/welcome' component={WelcomePage} />
                   <Route component={Dashboard} />
                 </Switch>
-                <Footer />
               </div>
             </BrowserRouter>
         </div>
