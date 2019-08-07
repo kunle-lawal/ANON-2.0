@@ -1,13 +1,15 @@
 import React, {Component} from 'react'
 import { updateReaction } from '../../store/actions/reactionAction'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+import { showAuthModule } from '../../store/actions/authActions'
 
 class Reactions extends Component {
     state = {
         thumb: {
             highlighted: false,
-            className: 'far fa-thumbs-up icon'
+            className: 'far fa-thumbs-up icon',
         },
+        firstLoad: false
     }
 
     componentDidMount() {
@@ -16,6 +18,9 @@ class Reactions extends Component {
             return;
         }
         this.setHighlight('thumb');
+        this.setState({
+            firstLoad: true
+        })
     }
 
     setHighlight = (id) => {
@@ -51,7 +56,7 @@ class Reactions extends Component {
     updateLikes = (e) => {
         const { auth } = this.props;
         const { id, profile, reactions } = this.props.reactions;
-        if(!auth.uid){ return; }
+        if (!auth.uid) { this.props.showAuthModule(); return; }
         // if (profile === null) { return 0 }
         // if (profile[id] === undefined) { return 0 }
         const { total } = reactions[e.target.id];
@@ -69,7 +74,6 @@ class Reactions extends Component {
 
     render() {
         const {id, profile, reactions} = this.props.reactions;
-        // console.log(this.props)
         return (
             <div className="reaction icon_container noselect">
                 <i id="thumb" className={this.state.thumb.className} onClick={this.updateLikes}> <span id="thumb">{reactions.thumb.total}</span></i>
@@ -80,7 +84,8 @@ class Reactions extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        updateReaction: (reaction) => dispatch(updateReaction(reaction))
+        updateReaction: (reaction) => dispatch(updateReaction(reaction)),
+        showAuthModule: () => dispatch(showAuthModule())
     }
 }
 

@@ -1,14 +1,10 @@
 const initState = {
-    stories: [
-        {id: '1', title: 'This is the way to go', content: 'blah blah blah'},
-        {id: '2', title: 'This is the way to go', content: 'blah blah blah' },
-        {id: '3', title: 'This is the way to go', content: 'blah blah blah' }
-    ],
+    stories: [''],
     addedStory: false,
     error: ""
 }
 
-const storyReducer = (state = initState, action) => {
+const storyStateReducer = (state = [], action) => {
     switch (action.type) {
         case 'ADDED_STORY':
             window.location = '/'
@@ -23,9 +19,14 @@ const storyReducer = (state = initState, action) => {
                 addedStory: false,
                 error: "Make sure you have a Title and a Story"
             }
+        case 'APPEND_STORY':
+            // const storyArr = state.stories;
+            // storyArr.push(action.storyData);
+            return state
+            // break;
         default:
             return state
     }
 }
 
-export default storyReducer
+export default storyStateReducer

@@ -1,8 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import SignUpUi from '../miniComponents/SignUpUI'
+import SignUpUi from '../miniComponents/auth/SignUpUI'
+import { Redirect } from 'react-router-dom'
 
 const WelcomePage = (props) => {
+    if (props.auth.uid) return <Redirect to='/' />
     return (
         <div className="welcome_container">
             <div className="container welcome">
@@ -22,7 +24,7 @@ const WelcomePage = (props) => {
                     </div>
                 </div> */}
             </div>
-            <div className="signup container">
+            <div className="signup-container container">
                 <br/>
                 <br/>
                 <h2>Join the Conversation</h2>
@@ -32,4 +34,10 @@ const WelcomePage = (props) => {
     )
 }
 
-export default connect()(WelcomePage) 
+const mapStateToProps = (state) => {
+    return {
+        auth: state.firebase.auth,
+    }
+}
+
+export default connect(mapStateToProps, null)(WelcomePage) 

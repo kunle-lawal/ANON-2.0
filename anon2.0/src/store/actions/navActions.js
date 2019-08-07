@@ -15,3 +15,21 @@ export const paginate = (val) => {
         dispatch({type: 'PAGINATE'}, val);
     }
 }
+
+export const openFullNav = () => {
+    return (dispatch) => {
+        dispatch({type:'OPEN_FULL_NAV'});
+    }
+}
+
+export const closeFullNav = () => {
+    return (dispatch) => {
+        dispatch({ type: 'CLOSE_FULL_NAV' });
+    }
+}
+
+export const toggleFullNav = () => {
+    return (dispatch) => {
+        dispatch({ type: 'TOGGLE_FULL_NAV' });
+    }
+}

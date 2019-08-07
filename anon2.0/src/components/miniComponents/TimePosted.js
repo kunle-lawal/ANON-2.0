@@ -19,7 +19,7 @@ function sortTime(time) {
 function TimePosted(props) {
     const { time } = props;
     return (
-        <h4><i class="far fa-clock"></i> {sortTime(time)}</h4>
+        <h4><i className="far fa-clock"></i> {sortTime(time)}</h4>
     )
 }
 

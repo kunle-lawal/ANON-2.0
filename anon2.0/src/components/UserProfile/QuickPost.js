@@ -1,16 +1,15 @@
-import React, {Component} from 'react'
-import { Redirect } from 'react-router-dom'
+import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {createStory} from '../../store/actions/storyStateAction'
 import {compose} from 'redux'
 import { firestoreConnect } from 'react-redux-firebase';
-import {saveData} from '../miniComponents/localstoreage'
+import {saveData, getData, deleteData} from '../miniComponents/localstoreage'
 
 class CreateStory extends Component {
     state = {
-        title: '',
+        title: 'Quick Thoughts',
         content: '',
-        topic: '',
+        topic: 'Quick Thoughts',
         adding: false,
         errors: false,
         storyError: null,
@@ -122,55 +121,25 @@ class CreateStory extends Component {
 
     render() {
         const { errors } = this.state;
-        const {auth } = this.props;
-        const topics = ['Science', 'Technology', 'Engineering', 'Art', 'Math', 'Misc', 'Tech News', 'Money', 'Education', 'Science', 'Steam', 'Stem', 'Jobs', 'react'];
-        if (!auth.uid) return <Redirect to='/welcome' />
         return (
-            <div className="write_container container">
+            <div className="write_container">
                 <form className="write" onSubmit={this.handleSubmit}>
-                    <div className="header">
-                        <h3 className="dark-text test-darken-3">Tell us your story.</h3>
-                    </div>
                     <div className="input-fields">
-                        <div className="input-field topic">
-                            <div id="dropdown" className="dropdown" onClick={this.toggleDropdown}>
-                                <span>Topic - {this.state.topic}</span>
-                                <div className={"dropdown_content " + (this.state.openDropdown ? '' : 'display_none')}>
-                                    {topics.map((topic, id) => {
-                                        return (
-                                            <p id={topic} key={id} className="dropdown_item noselect" onClick={this.handleTopic}>{topic}</p>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="input-field title">
-                            <input type="text" id='title' maxLength="30" onChange={this.handleChange} value={this.state.title} placeholder="Title"/>
-                        </div>
-
                         <div className="input-field textarea-field content">
-                            <h4>Keep it civil</h4>
                             <textarea id="content" className="materialize-textarea" spellCheck="true" onChange={this.handleChange} value={this.state.content} placeholder="Write your post here"></textarea>
-                        </div>
-
-                        <div className="input-field">
-                            <div className="red-text error-message center">
-                                {<p>{errors}</p>}
-                            </div>
-                        </div>
-                        <div className="button-input">
-                            {
-                                (this.state.timerVal <= (2) || this.state.timerVal == null) ? (
-                                    (this.state.timerVal > 0) ? (
-                                        <p className="red-text error-message center">Wait {((2) - Math.floor(this.state.timerVal))} Minutes </p>
+                            <div className="button-input">
+                                {
+                                    (this.state.timerVal <= (4) || this.state.timerVal == null) ? (
+                                        (this.state.timerVal > 0) ? (
+                                            <p className="red-text error-message center">Wait {((4) - Math.floor(this.state.timerVal))} Minutes </p>
+                                        ) : (
+                                                null
+                                            )
                                     ) : (
-                                            null
+                                            <button className="btn-flat white-text waves-effect waves-light">POST</button>
                                         )
-                                ) : (
-                                        <button className="btn-flat white-text waves-effect waves-light">POST</button>
-                                    )
-                            }
+                                }
+                            </div>
                         </div>
                     </div>
                 </form>

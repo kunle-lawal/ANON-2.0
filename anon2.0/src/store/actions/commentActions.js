@@ -8,10 +8,11 @@ export const addComment = (theComment) => {
         const storyCollection = firestore.collection('stories');
         const { comment, fbDocument, userProfile } = theComment;
         const user = firebase.auth().currentUser;
+        // return 0;
         if (comments.addedComments){return 0}
         storyCollection.doc(fbDocument).collection('comments').add({
             comment: comment,
-            user: userProfile.id,
+            user: userProfile.first_name + ' - ' + userProfile.last_name,
             time: new Date(),
             createdAt: new Date().getTime()
         }).then(() => {

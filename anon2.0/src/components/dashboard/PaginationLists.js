@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { scrollToTop } from '../miniComponents/scrollToTop'
 
 const PaginationList = (props) => {
-    // console.log(props)
     var paginationList = []
     const total = (props.paginationState.pagVal < 5) ? Math.ceil(props.paginationState.pagVal) : 5;
     for(var i = 1; i <= (total); i++) {

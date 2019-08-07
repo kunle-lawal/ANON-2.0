@@ -8,7 +8,10 @@ import Topic from './components/dashboard/Topic';
 import StoryDetails from './components/stories/StoryDetails';
 import CreateStory from './components/stories/CreateStory';
 import MyProfile from './components/UserProfile/MyProfile';
-import Footer from './components/layout/Footer';
+import MyActivity from './components/UserProfile/MyActivity';
+import Bookmarks from './components/UserProfile/BookMarks';
+import AuthModule from './components/miniComponents/auth/AuthModule';
+import PageNotFound from './components/dashboard/PageNotFound';
 
 class App extends Component {
   render() {
@@ -18,6 +21,7 @@ class App extends Component {
             <BrowserRouter>
               <div className="main">
                 <Navbar />
+                <AuthModule/>
                 <Switch>
                   <Route exact path='/' component={Dashboard} />
                   <Route path='/welcome' component={WelcomePage} />
@@ -28,7 +32,10 @@ class App extends Component {
                   <Route exact path='/admin' component={AdminDashboard} />
                   <Route path='/admin/:id' component={AdminDashboard} />
                   <Route path='/page/:id' component={Dashboard} />
-                  <Route component={Dashboard} />
+                  <Route path='/myactivity' component={MyActivity} />
+                  <Route path='/bookmarks' component={Bookmarks} />
+                  <Route path='/404' component={PageNotFound} />
+                  <Route component={PageNotFound} />
                 </Switch>
               </div>
             </BrowserRouter>

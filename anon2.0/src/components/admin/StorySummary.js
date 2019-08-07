@@ -4,7 +4,7 @@ import TimePosted from '../miniComponents/TimePosted'
 import { scrollToTop } from '../miniComponents/scrollToTop'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { createStory } from '../../store/actions/storyAction'
+import { createStory } from '../../store/actions/storyStateAction'
 
 class StorySummary extends Component {
     state = {
@@ -21,17 +21,14 @@ class StorySummary extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const { IDs } = this.props;
-        // console.log(e.target.id);
         this.setState({
             passedReview: (e.target.id === 'true') ? true : false
         })
-        // console.log(this.state.passedReview);
         this.props.createStory({ ...this.state, passedReview: (e.target.id === 'true') ? true : false}, { postId: IDs.postIds.totalIds, userId: IDs.postIds.totalIds });
     }
 
     render() {
         const { story } = this.props;
-        // console.log(story);
         
         return (
             <div className="article">
@@ -74,7 +71,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    // console.log(ownProps);
     return {
         auth: state.firebase.auth,
         IDs: state.firestore.data.Ids,

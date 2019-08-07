@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addComment } from '../../store/actions/commentActions'
+import { showAuthModule } from '../../store/actions/authActions'
 
 class WriteComments extends Component {
     state = {
         comment: '',
-        lastComment: '',
         adding: false,
         errors: false,
         commentError: null,
@@ -37,7 +37,7 @@ class WriteComments extends Component {
     isEmpty = () => {
         if (this.state.comment === '') {
             this.setState({
-                errors: 'You gotta write something, Don\'t worry its Anonymous :)'
+                errors: 'You gotta write something'
             })
             return true;
         }
@@ -48,7 +48,7 @@ class WriteComments extends Component {
         const { auth } = this.props;
         if (!auth.uid) {
             this.setState({
-                errors: 'You need to sign in... Anonymous :)'
+                errors: 'You need to sign in.'
             })
             return false;
         }
@@ -86,22 +86,22 @@ class WriteComments extends Component {
 
     render() {
         const { errors } = this.state;
-        // console.log(this.props);
+        const { auth } = this.props
         // const { lastComment } = this.props.profile;
         // let timerVal = (((Date.now()) - lastComment) / 1000);
         return (
             <div className="write_comment_container">
-                <div className="write_comment">
+                <div className="write_comment" onClick={(!auth.uid) ? this.props.showAuthModule : null}>
                     <form className="write comment" onSubmit={this.handleSubmit}>
                         <div className="input-field textarea-field">
                             <textarea id="comment" className="materialize-textarea" maxLength="200" spellCheck="true" onChange={this.handleChange} value={this.state.comment} placeholder="Add comment"></textarea>
                         </div>
 
-                        <div className={"input-field button-input " + (this.state.comment.length < 10 ? "disable" : "")}>
+                        <div className={"input-field button-input " + (this.state.comment.length < 1 ? "disable" : "")}>
                             {
-                                (this.state.timerVal < 60) ? (
+                                (this.state.timerVal < 30) ? (
                                     (this.state.timerVal > 0) ? (
-                                        <p className="red-text error-message center">Wait {Math.trunc(60 - this.state.timerVal)} seconds </p>
+                                        <p className="red-text error-message center">Wait {Math.trunc(30 - this.state.timerVal)} seconds </p>
                                     ) : (
                                         null
                                     )
@@ -123,12 +123,12 @@ class WriteComments extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        addComment: (comment) => dispatch(addComment(comment))
+        addComment: (comment) => dispatch(addComment(comment)),
+        showAuthModule: () => dispatch(showAuthModule())
     }
 }
 
 const mapStateToProps = (state) => {
-    // console.log(state);
     return {
         commentError: state.comments.error,
         commentAdded: state.comments.addedComment,

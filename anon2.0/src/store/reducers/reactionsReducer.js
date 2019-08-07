@@ -1,13 +1,7 @@
 const initState = {
     type: '',
-    id: ''
+    id: '',
 }
-
-let postsLiked = [];
-
-// const saveStateLocally = () => {
-//     localStorage.setItem("postLikes", JSON.stringify(postsLiked));
-// }
 
 const reactionReducer = (state = initState, action) => {
     switch (action.type) {
@@ -17,6 +11,20 @@ const reactionReducer = (state = initState, action) => {
                 ...state,
                 [id]: {
                     type: action.reaction.type
+                }
+            }
+        case 'ADDED_BOOKMARK': 
+            return {
+                ...state,
+                [action.bookmark.id]: {
+                    bookmarked: action.bookmark.bookmarked
+                }
+            }
+        case 'REMOVED_BOOKMARK':
+            return {
+                ...state,
+                [action.bookmark.id]: {
+                    bookmarked: action.bookmark.bookmarked
                 }
             }
         default:

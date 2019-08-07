@@ -1,16 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { signUp } from '../../store/actions/authActions'
+import { showAuthModule } from '../../store/actions/authActions'
 
 class SignUp extends Component {
-    signOutAnonymous = (e) => {
-        this.props.signUp();
-    }
     render() {
         return (
             <div className="item-container">
                 <div className="item sign">
-                    <h3 onClick={this.signOutAnonymous}>Sign up</h3>
+                    <h3 onClick={this.props.showAuthModule}>Sign up</h3>
                 </div>
             </div>
         )
@@ -23,4 +20,10 @@ class SignUp extends Component {
 //     }
 // }
 
-export default connect(null, null)(SignUp) 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        showAuthModule: () => dispatch(showAuthModule())
+    }
+}
+
+export default connect(null, mapDispatchToProps)(SignUp) 

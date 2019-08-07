@@ -6,9 +6,7 @@ export const updateReaction = (reaction) => {
         const user = firebase.auth().currentUser;
         // const userCollection = firestore.collection('users').doc(user.uid);
         let type = reaction.type[0];
-        // console.log(type);
-        // console.log((reaction.userData.reactions[type] === undefined) ? 'reaction.userData.reaction' : reaction.userData.reactions[type]);
-        
+
         // const isLiked = likeExists(postsLiked, reaction.id, type);
         // if (!isLiked) {
         //     pushData(reaction.id, type);
@@ -89,44 +87,71 @@ const incrementReaction = (data, id, type, likeAmt) => {
         }
     }, { merge: true })
 }
-// const saveData = () => {
-//     localStorage.setItem('postsLiked', JSON.stringify(postsLiked));
-// }
 
-// const getData = () => {
-//     postsLiked = JSON.parse(localStorage.getItem('postsLiked') || '[]');
-// }
+export const updateBookmark = (bookmark) => {
+    return (dispatch, getState, { getFirebase, getFirestore }) => {
+        // make async call to database
+        const firebase = getFirebase();
+        const firestore = getFirestore();
+        const user = firebase.auth().currentUser;
+        const {story} = bookmark
+        // const userCollection = firestore.collection('users').doc(user.uid);
+        let bookmarked = updateUserBookmarkData({ firestore, firebase }, user.uid, story, (bookmark.userData.profile === null) ? false : ((bookmark.userData.profile.bookmarked === undefined) ? false : bookmark.userData.profile.bookmarked));
+        // return 0;
+        if(bookmarked){
+            let removed = removeBookmark({ firebase, firestore }, user.uid, story);
+            if(removed){
+                dispatch({
+                    type: "REMOVED_BOOKMARK",
+                    bookmark: {
+                        id: story.id,
+                        bookmarked: false
+                    }
+                })
+            }
+        } else {
+            let added = addBookmark({ firebase, firestore }, user.uid, story);
+            if(added) {
+                dispatch({
+                    type: "ADDED_BOOKMARK",
+                    bookmark: {
+                        id: story.id,
+                        bookmarked: true
+                    }
+                })
+            }
+        }
+    }
+}
 
-// const pushData = (id, type) => {
-//     // if (postsLiked.hasOwnProperty(id)) {console.log(postsLiked.id)}
-//     // const reactExits = likeExists(postsLiked, id, type) ? () :()
-//     postsLiked.push(id + ":" + type)
+const updateUserBookmarkData = (data, uid, story, action) => {
+    const { firestore } = data;
+    firestore.collection('users').doc(uid).set({
+        [story.id]: {
+            bookmarked: !action
+        }
+    }, { merge: true })
+    
+    return action
+}
 
-//     // const key = likeExists(postsLiked, id, type)
-//     // return (
-//     //     (likeExists(postsLiked, id, type)) ? (
-//     //         postsLiked.splice(key, 1)
-//     //     ) : (
-//     //         postsLiked.push(id + ":" + type)
-//     //     )
-//     // )
-//     // postsLiked.push({
-//     //     [id]: {
-//     //         [type]: type
-//     //     }
-//     // })
-//     // postsLiked.push(id+":"+type);
-//     // console.log(postsLiked);
-// }
+const addBookmark = (data, uid, story) => {
+    const { firestore } = data;
+    const userBookmarkCollection = firestore.collection('users').doc(uid).collection('bookmarks');
+    userBookmarkCollection.doc(story.id).set({
+        bookmarkedStory: story
+    }).then(() => {
+        return true;
+    }).catch(() => {
+        return false;
+    })
+}
 
-// const likeExists = (arr, id, type) => {
-//     const reaction = id+':'+type;
-//     for(var key in arr){
-//         // console.log(arr[key]);
-//         if (arr[key] === reaction) {
-//             // console.log(key);
-//             return key;
-//         }
-//     }
-//     return false;
-// }
+const removeBookmark = (data, uid, story) => {
+    const { firestore } = data;
+    firestore.collection('users').doc(uid).collection('bookmarks').doc(story.id).delete().then(() => {
+        return true;
+    }).catch((error) => {
+        return false;
+    })
+}

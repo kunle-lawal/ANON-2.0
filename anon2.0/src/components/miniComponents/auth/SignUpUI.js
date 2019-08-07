@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { signUp } from '../../store/actions/authActions'
+import { signUp } from '../../../store/actions/authActions'
 
 class SignUp extends Component {
     state = {
@@ -19,8 +19,9 @@ class SignUp extends Component {
     }
 
     handleSubmit = (e) => {
-        this.inputError();
-        // this.signUp()
+        if (!this.inputError()){return 0}
+        const authInfo =  this.state;
+        this.props.signUp(authInfo)
     }
 
     validateEmail = (email) => {
@@ -30,22 +31,23 @@ class SignUp extends Component {
 
     inputError = () => {
         let errors = [];
-        let concatErrors = (string, newString) => string + " & " + newString;
+        let concatErrors = (string, newString) => string + ' & ' + newString;
         if (!this.validateEmail(this.state.email)) {
             errors.push('Please give us a valid email');
         } 
-        if(this.state.password != this.state.password_confirm) {
+        if(this.state.password !== this.state.password_confirm) {
             errors.push('Passwords do not match');
         }
         if ((this.state.password === '')) {
             errors.push('Password field is empty');
         }
-        // this.setState({
-        //     errors: 'Passwords do not match'
-        // })
-        errors = (errors.length > 1) ? (errors.reduce(concatErrors)) : (errors[0]);
-        console.log(errors);
-        return false;
+        if ((this.state.password < 6)) {
+            errors.push('Password should be at least 6 characters');
+        }
+        if (errors.length === 0) { this.setState({errors: ''}); return true } else { errors =  (errors.length > 1) ? (errors.reduce(concatErrors)) : (errors[0]);};
+        this.setState({
+            errors: errors
+        })
     }
 
     checkProfanity = () => {
@@ -63,7 +65,7 @@ class SignUp extends Component {
     render() {
         const {errors} = this.state
         return (
-            <div className="signup-container row">
+            <div className="signup row">
                 <form className="sign-up col s12">
                     <div className="row">
                         <div className="input-field col s6">
@@ -94,10 +96,9 @@ class SignUp extends Component {
                         </div>
                     </div>
 
-                    <div className="btn-flat waves-effect waves-light btn-post black" onClick={this.handleSubmit}>Sign Up</div>
+                    <div className="btn-flat waves-effect waves-light btn-post" onClick={this.handleSubmit}>Sign Up</div>
                 </form>
                 <div className="red-text error-message center">
-                    <br />
                     {<p className="red-text error-message center">{errors}</p>}
                 </div>
             </div>

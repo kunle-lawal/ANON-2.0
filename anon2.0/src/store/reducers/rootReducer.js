@@ -1,4 +1,5 @@
-import storyReducer from './storyReducers'
+import storyStateReducer from './storyStateReducer'
+import storyReducer from './storyReducer'
 import commentReducer from './commentReducer'
 import reactionsReducer from './reactionsReducer'
 import authReducer from './authReducer'
@@ -10,6 +11,7 @@ import {firebaseReducer} from 'react-redux-firebase'
 const rootReducer = combineReducers({
     nav: navReducers,
     auth: authReducer,
+    storyState: storyStateReducer,
     stories: storyReducer,
     comments: commentReducer,
     reaction: reactionsReducer,

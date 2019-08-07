@@ -23,14 +23,12 @@ class AdminDashboard extends Component {
         const { nav, stories } = this.props;
         const pageId = this.props.match.params.id ? this.props.match.params.id : 1;
         let paginatedStories = stories ? stories.slice((this.state.endAt * pageId) - this.state.endAt, (this.state.endAt * pageId)) : []
-        // console.log(stories);
         let paginationState = {
             pagVal: stories ? stories.length / this.state.endAt : 0,
             offset: pageId,
             totalPages: (((stories ? stories.length : 1) / this.state.endAt)) < 1 ? 1 : Math.ceil((stories ? stories.length : 1) / this.state.endAt),
             pageType: 'admin'
         }
-        // console.log(paginationState);
 
         if (!nav.mobileToggled) {
             if (stories) {
@@ -83,7 +81,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => {
-    // console.log(state);
     return {
         stories: state.firestore.ordered.reviews,
         nav: state.nav,

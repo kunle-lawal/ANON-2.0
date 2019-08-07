@@ -6,11 +6,7 @@ export const updateFlaggedPost = (post) => {
         const user = firebase.auth().currentUser;
         const storyCollection = firestore.collection('stories');
         const { fbDoc, userProfile, postID, reason, reasonType, userID} = post;
-        console.log(userID, fbDoc);
-        console.log(fbDoc);
-        console.log(post);
         storyCollection.doc(fbDoc).collection('flags').add({
-            userID: userProfile,
             user: user.uid,
             reason: reason,
             reasonLevel: reasonType,
@@ -47,7 +43,6 @@ const incrementFlags = (data, id) => {
 
 const addBanUsers = (data, uid, fbDoc) => {
     const { firebase, firestore } = data;
-    console.log(firebase.firestore.FieldValue.arrayUnion(fbDoc));
     firestore.collection('users').doc(uid).set({
         banList: firebase.firestore.FieldValue.arrayUnion(fbDoc)
     }, { merge: true })

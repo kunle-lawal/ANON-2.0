@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import FlaggedPost from './FlagedPost'
 import { updateFlaggedPost } from '../../store/actions/flagPostsActions'
+import { showAuthModule } from '../../store/actions/authActions'
 import { connect } from 'react-redux'
 
 class ReportPost extends Component {
@@ -23,6 +24,7 @@ class ReportPost extends Component {
     toggleFlagUI = (e) => {
         const { auth } = this.props;
         if (!auth.uid) {
+            this.props.showAuthModule();
             return;
         }
         this.setState({
@@ -51,11 +53,9 @@ class ReportPost extends Component {
             flagged: true,
             className: 'highlighted material-icons'
         })
-        console.log(this.props);
         this.props.updateFlaggedPost({ 
             fbDoc: docID, 
             userID: this.props.post.story.userID,
-            userProfile: this.props.post.profileID, 
             postID: this.props.post.story.postID, 
             reason:e.target.id,
             reasonType: e.target.value
@@ -64,8 +64,6 @@ class ReportPost extends Component {
 
     render() {
         // const { reactions } = this.props.reactions.story;
-        // console.log(this.props)
-        // console.log(this.state)
         return (
             <React.Fragment>
                 {this.state.flagged ? (
@@ -94,7 +92,8 @@ class ReportPost extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        updateFlaggedPost: (post) => dispatch(updateFlaggedPost(post))
+        updateFlaggedPost: (post) => dispatch(updateFlaggedPost(post)),
+        showAuthModule: () => dispatch(showAuthModule())
     }
 }
 

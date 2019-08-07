@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {connect} from 'react-redux'
-import {signIn} from '../../store/actions/authActions'
+import { showSignInModule } from '../../store/actions/authActions'
 
 const SignIn = (props) => {
     if(props.userInfo.auth.uid) {
@@ -9,7 +9,7 @@ const SignIn = (props) => {
         return (
             <div className="item-container">
                 <div className="signIn item sign">
-                    <h3 onClick={() => { props.signIn(props.userInfo.Ids.userIds)}}>Sign In</h3>
+                    <h3 onClick={props.showSignInModule}>Sign In</h3>
                 </div>
             </div>
         )
@@ -18,7 +18,7 @@ const SignIn = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        signIn: (id) => dispatch(signIn(id))
+        showSignInModule: () => dispatch(showSignInModule())
     }
 }
 
