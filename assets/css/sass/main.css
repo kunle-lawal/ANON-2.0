@@ -279,8 +279,8 @@ p {
   text-decoration: underline;
 }
 
-.main_container .main .main_body_container .main_body .article-info-description {
-  margin-top: 20px;
+.main_container .main .main_body_container .main_body .article-info-description 
+{  margin-top: 20px;
   width: 70%;
 }
 
